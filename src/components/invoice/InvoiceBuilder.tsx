@@ -14,6 +14,7 @@ import { PDFDownloadButton } from './PDFDownloadButton';
 import { LogoUploader } from './LogoUploader';
 import { CustomFields } from './CustomFields';
 import { TemplateSelector } from './TemplateSelector';
+import { AISuggestions, AIExpandButton } from './AIAssistant';
 import { Invoice, LineItem, DocumentType } from '@/lib/types/invoice';
 import { DOCUMENT_TYPES, CURRENCIES, FONTS } from '@/lib/constants';
 import { 
@@ -340,7 +341,14 @@ export function InvoiceBuilder() {
                           )}
                         </div>
                         <div>
-                          <Label>Description</Label>
+                          <div className="flex items-center justify-between mb-1">
+                            <Label>Description</Label>
+                            <AIExpandButton
+                              description={item.description}
+                              documentType={invoice.type || 'invoice'}
+                              onExpand={(expanded) => updateLineItem(item.id, { description: expanded })}
+                            />
+                          </div>
                           <Textarea
                             value={item.description}
                             onChange={(e) => updateLineItem(item.id, { description: e.target.value })}
@@ -407,14 +415,28 @@ export function InvoiceBuilder() {
                         </div>
                       </div>
                     ))}
-                    <Button 
-                      variant="outline" 
-                      className="w-full gap-2"
-                      onClick={addLineItem}
-                    >
-                      <Plus className="h-4 w-4" />
-                      Add Line Item
-                    </Button>
+                    <div className="flex gap-2">
+                      <Button 
+                        variant="outline" 
+                        className="flex-1 gap-2"
+                        onClick={addLineItem}
+                      >
+                        <Plus className="h-4 w-4" />
+                        Add Line Item
+                      </Button>
+                    </div>
+                    
+                    {/* AI Suggestions */}
+                    <AISuggestions 
+                      documentType={invoice.type || 'invoice'}
+                      onAddLineItem={(item) => {
+                        setInvoice(prev => {
+                          const lineItems = [...(prev.lineItems || []), item];
+                          const totals = calculateTotals(lineItems);
+                          return { ...prev, lineItems, ...totals };
+                        });
+                      }}
+                    />
                   </div>
 
                   <Separator className="my-6" />

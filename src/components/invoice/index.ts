@@ -5,3 +5,4 @@ export { PDFDownloadButton } from './PDFDownloadButton';
 export { LogoUploader } from './LogoUploader';
 export { CustomFields } from './CustomFields';
 export { TemplateSelector } from './TemplateSelector';
+export { AISuggestions, AIExpandButton } from './AIAssistant';
