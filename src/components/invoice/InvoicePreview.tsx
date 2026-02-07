@@ -174,6 +174,18 @@ export function InvoicePreview({ invoice, showWatermark = true }: InvoicePreview
         </div>
       </div>
 
+      {/* Custom Fields */}
+      {invoice.customFields && invoice.customFields.length > 0 && (
+        <div className="mb-6 grid grid-cols-2 gap-4">
+          {invoice.customFields.map(field => (
+            <div key={field.id}>
+              <div className="text-xs font-semibold text-slate-500">{field.label}</div>
+              <div className="text-sm text-slate-700">{field.value}</div>
+            </div>
+          ))}
+        </div>
+      )}
+
       {/* Notes & Terms */}
       {(invoice.notes || invoice.terms) && (
         <div className="border-t pt-6 space-y-4">

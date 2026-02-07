@@ -9,7 +9,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Plus, Trash2, Download, FileText } from 'lucide-react';
+import { Plus, Trash2, FileText } from 'lucide-react';
+import { PDFDownloadButton } from './PDFDownloadButton';
+import { LogoUploader } from './LogoUploader';
+import { CustomFields } from './CustomFields';
 import { Invoice, LineItem, DocumentType } from '@/lib/types/invoice';
 import { DOCUMENT_TYPES, CURRENCIES, DUE_DATE_PRESETS } from '@/lib/constants';
 import { 
@@ -93,10 +96,11 @@ export function InvoiceBuilder() {
               <FileText className="h-4 w-4" />
               Save Draft
             </Button>
-            <Button className="gap-2 bg-blue-600 hover:bg-blue-700">
-              <Download className="h-4 w-4" />
-              Download PDF
-            </Button>
+            <PDFDownloadButton 
+              invoice={invoice} 
+              showWatermark={true}
+              className="gap-2 bg-blue-600 hover:bg-blue-700"
+            />
           </div>
         </div>
 
@@ -135,6 +139,17 @@ export function InvoiceBuilder() {
                 <Card className="p-6">
                   <h3 className="font-semibold mb-4">Your Business</h3>
                   <div className="space-y-4">
+                    <div>
+                      <Label>Logo</Label>
+                      <div className="mt-1">
+                        <LogoUploader
+                          logo={invoice.from?.logo}
+                          onLogoChange={(logo) => updateInvoice({
+                            from: { ...invoice.from!, logo }
+                          })}
+                        />
+                      </div>
+                    </div>
                     <div>
                       <Label htmlFor="from-name">Business Name</Label>
                       <Input
@@ -439,6 +454,12 @@ export function InvoiceBuilder() {
                     onChange={(e) => updateInvoice({ terms: e.target.value })}
                     placeholder="Payment terms, late fees, etc..."
                     rows={4}
+                  />
+                </Card>
+                <Card className="p-6">
+                  <CustomFields
+                    fields={invoice.customFields || []}
+                    onChange={(customFields) => updateInvoice({ customFields })}
                   />
                 </Card>
               </TabsContent>
