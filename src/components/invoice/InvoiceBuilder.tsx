@@ -13,8 +13,9 @@ import { Plus, Trash2, FileText } from 'lucide-react';
 import { PDFDownloadButton } from './PDFDownloadButton';
 import { LogoUploader } from './LogoUploader';
 import { CustomFields } from './CustomFields';
+import { TemplateSelector } from './TemplateSelector';
 import { Invoice, LineItem, DocumentType } from '@/lib/types/invoice';
-import { DOCUMENT_TYPES, CURRENCIES, DUE_DATE_PRESETS } from '@/lib/constants';
+import { DOCUMENT_TYPES, CURRENCIES, FONTS } from '@/lib/constants';
 import { 
   createEmptyInvoice, 
   createEmptyLineItem, 
@@ -467,6 +468,15 @@ export function InvoiceBuilder() {
               {/* Settings Tab */}
               <TabsContent value="settings" className="space-y-4">
                 <Card className="p-6">
+                  <h3 className="font-semibold mb-4">Template</h3>
+                  <TemplateSelector
+                    selected={invoice.settings?.template || 'clean'}
+                    onSelect={(template) => updateInvoice({
+                      settings: { ...invoice.settings!, template }
+                    })}
+                  />
+                </Card>
+                <Card className="p-6">
                   <h3 className="font-semibold mb-4">Colors</h3>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
@@ -510,6 +520,26 @@ export function InvoiceBuilder() {
                       </div>
                     </div>
                   </div>
+                </Card>
+                <Card className="p-6">
+                  <h3 className="font-semibold mb-4">Font</h3>
+                  <Select 
+                    value={invoice.settings?.font || 'inter'} 
+                    onValueChange={(v) => updateInvoice({ 
+                      settings: { ...invoice.settings!, font: v } 
+                    })}
+                  >
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {FONTS.map(font => (
+                        <SelectItem key={font.id} value={font.id}>
+                          <span style={{ fontFamily: font.family }}>{font.name}</span>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </Card>
               </TabsContent>
             </Tabs>
