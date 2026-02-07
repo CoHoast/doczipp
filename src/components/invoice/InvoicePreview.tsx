@@ -2,6 +2,7 @@
 
 import { Invoice } from '@/lib/types/invoice';
 import { formatCurrency, formatDate } from '@/lib/utils/invoice';
+import { FONTS } from '@/lib/constants';
 
 interface InvoicePreviewProps {
   invoice: Partial<Invoice>;
@@ -12,6 +13,8 @@ export function InvoicePreview({ invoice, showWatermark = true }: InvoicePreview
   const primaryColor = invoice.settings?.primaryColor || '#1e40af';
   const accentColor = invoice.settings?.accentColor || '#10b981';
   const currency = invoice.settings?.currency || 'USD';
+  const fontId = invoice.settings?.font || 'inter';
+  const font = FONTS.find(f => f.id === fontId) || FONTS[0];
 
   const documentTitle = invoice.type === 'invoice' ? 'INVOICE' :
                         invoice.type === 'quote' ? 'QUOTE' :
@@ -19,7 +22,7 @@ export function InvoicePreview({ invoice, showWatermark = true }: InvoicePreview
                         invoice.type === 'receipt' ? 'RECEIPT' : 'PROFORMA INVOICE';
 
   return (
-    <div className="relative bg-white p-8 min-h-[600px] text-sm" style={{ fontFamily: 'Inter, sans-serif' }}>
+    <div className="relative bg-white p-8 min-h-[600px] text-sm" style={{ fontFamily: font.family }}>
       {/* Watermark */}
       {showWatermark && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-10">

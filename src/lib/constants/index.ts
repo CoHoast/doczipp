@@ -30,10 +30,16 @@ export const TEMPLATES = [
 ] as const;
 
 export const FONTS = [
-  { id: 'inter', name: 'Inter', family: 'Inter, sans-serif' },
-  { id: 'roboto', name: 'Roboto', family: 'Roboto, sans-serif' },
-  { id: 'lato', name: 'Lato', family: 'Lato, sans-serif' },
-  { id: 'poppins', name: 'Poppins', family: 'Poppins, sans-serif' },
+  { id: 'inter', name: 'Inter', family: 'var(--font-inter), Inter, sans-serif' },
+  { id: 'roboto', name: 'Roboto', family: 'var(--font-roboto), Roboto, sans-serif' },
+  { id: 'lato', name: 'Lato', family: 'var(--font-lato), Lato, sans-serif' },
+  { id: 'poppins', name: 'Poppins', family: 'var(--font-poppins), Poppins, sans-serif' },
+  { id: 'opensans', name: 'Open Sans', family: 'var(--font-opensans), Open Sans, sans-serif' },
+  { id: 'montserrat', name: 'Montserrat', family: 'var(--font-montserrat), Montserrat, sans-serif' },
+  { id: 'playfair', name: 'Playfair Display', family: 'var(--font-playfair), Playfair Display, serif' },
+  { id: 'merriweather', name: 'Merriweather', family: 'var(--font-merriweather), Merriweather, serif' },
+  { id: 'sourcesans', name: 'Source Sans 3', family: 'var(--font-sourcesans), Source Sans 3, sans-serif' },
+  { id: 'raleway', name: 'Raleway', family: 'var(--font-raleway), Raleway, sans-serif' },
 ] as const;
 
 export const DUE_DATE_PRESETS = [

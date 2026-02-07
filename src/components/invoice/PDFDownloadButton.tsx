@@ -1,11 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { pdf } from '@react-pdf/renderer';
+import dynamic from 'next/dynamic';
 import { Button } from '@/components/ui/button';
 import { Download, Loader2 } from 'lucide-react';
 import { Invoice } from '@/lib/types/invoice';
-import { InvoicePDF } from './InvoicePDF';
+import { useToast } from '@/components/ui/toast';
 
 interface PDFDownloadButtonProps {
   invoice: Partial<Invoice>;
@@ -19,11 +19,16 @@ export function PDFDownloadButton({
   className 
 }: PDFDownloadButtonProps) {
   const [isGenerating, setIsGenerating] = useState(false);
+  const { showToast } = useToast();
 
   const handleDownload = async () => {
     setIsGenerating(true);
     
     try {
+      // Dynamic import to avoid SSR issues
+      const { pdf } = await import('@react-pdf/renderer');
+      const { InvoicePDF } = await import('./InvoicePDF');
+      
       const blob = await pdf(
         <InvoicePDF invoice={invoice} showWatermark={showWatermark} />
       ).toBlob();
@@ -42,9 +47,11 @@ export function PDFDownloadButton({
       link.click();
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
+      
+      showToast('success', 'PDF Downloaded!', `Your ${type} has been saved to your device.`);
     } catch (error) {
       console.error('Error generating PDF:', error);
-      alert('Failed to generate PDF. Please try again.');
+      showToast('error', 'Download Failed', 'There was an issue generating your PDF. Please try again.');
     } finally {
       setIsGenerating(false);
     }
