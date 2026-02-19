@@ -3,60 +3,71 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { FileText, Mail, MessageSquare } from 'lucide-react';
-import { Header } from '@/components/layout/Header';
+import { Badge } from '@/components/ui/badge';
+import { Mail, MessageSquare, HelpCircle } from 'lucide-react';
 
 export const metadata = {
-  title: 'Contact Us | QuickBill',
-  description: 'Get in touch with the QuickBill team',
+  title: 'Contact Us | DOCzipp',
+  description: 'Get in touch with the DOCzipp team',
 };
 
 export default function ContactPage() {
   return (
-    <div className="min-h-screen bg-slate-50">
-      <Header />
-      
-      <div className="container mx-auto px-4 py-12 md:py-20">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Get in Touch</h1>
-            <p className="text-lg text-slate-600">
-              Have a question or feedback? We&apos;d love to hear from you.
-            </p>
-          </div>
+    <div>
+      {/* Hero */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 brand-gradient opacity-5" />
+        <div className="container mx-auto px-4 py-16 md:py-20 text-center relative">
+          <Badge className="mb-4 bg-primary/10 text-primary border-primary/20">
+            <MessageSquare className="h-3 w-3 mr-1" />
+            Contact
+          </Badge>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            Get in <span className="brand-gradient-text">Touch</span>
+          </h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Have a question or feedback? We'd love to hear from you.
+          </p>
+        </div>
+      </section>
 
+      <div className="container mx-auto px-4 py-12 md:py-16">
+        <div className="max-w-4xl mx-auto">
           <div className="grid md:grid-cols-2 gap-8 md:gap-12">
             {/* Contact Info */}
             <div>
-              <h2 className="text-xl font-semibold text-slate-900 mb-6">Contact Information</h2>
+              <h2 className="text-xl font-semibold mb-6">Contact Information</h2>
               
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Mail className="h-5 w-5 text-blue-600" />
+                  <div className="w-10 h-10 brand-gradient rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Mail className="h-5 w-5 text-white" />
                   </div>
                   <div>
-                    <h3 className="font-medium text-slate-900">Email</h3>
-                    <p className="text-slate-600">support@quickbill.com</p>
-                    <p className="text-sm text-slate-500">We respond within 24 hours</p>
+                    <h3 className="font-medium">Email</h3>
+                    <p className="text-muted-foreground">support@doczipp.com</p>
+                    <p className="text-sm text-muted-foreground">We respond within 24 hours</p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <MessageSquare className="h-5 w-5 text-blue-600" />
+                  <div className="w-10 h-10 brand-gradient rounded-lg flex items-center justify-center flex-shrink-0">
+                    <MessageSquare className="h-5 w-5 text-white" />
                   </div>
                   <div>
-                    <h3 className="font-medium text-slate-900">Live Chat</h3>
-                    <p className="text-slate-600">Available for Pro users</p>
-                    <p className="text-sm text-slate-500">Mon-Fri, 9am-5pm EST</p>
+                    <h3 className="font-medium">Live Chat</h3>
+                    <p className="text-muted-foreground">Available for Pro users</p>
+                    <p className="text-sm text-muted-foreground">Mon-Fri, 9am-5pm EST</p>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-8 p-6 bg-blue-50 rounded-xl">
-                <h3 className="font-medium text-slate-900 mb-2">Looking for help?</h3>
-                <p className="text-sm text-slate-600 mb-4">
+              <div className="mt-8 p-6 bg-muted/50 rounded-xl border">
+                <div className="flex items-center gap-2 mb-2">
+                  <HelpCircle className="h-5 w-5 text-primary" />
+                  <h3 className="font-medium">Looking for help?</h3>
+                </div>
+                <p className="text-sm text-muted-foreground mb-4">
                   Check out our documentation and FAQs for quick answers to common questions.
                 </p>
                 <Link href="/pricing#faq">
@@ -68,8 +79,8 @@ export default function ContactPage() {
             </div>
 
             {/* Contact Form */}
-            <div className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200">
-              <h2 className="text-xl font-semibold text-slate-900 mb-6">Send us a message</h2>
+            <div className="bg-card rounded-2xl p-6 md:p-8 border">
+              <h2 className="text-xl font-semibold mb-6">Send us a message</h2>
               
               <form className="space-y-4">
                 <div className="grid sm:grid-cols-2 gap-4">
@@ -103,7 +114,7 @@ export default function ContactPage() {
                   />
                 </div>
                 
-                <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700">
+                <Button type="submit" className="w-full brand-gradient text-white hover:opacity-90">
                   Send Message
                 </Button>
               </form>
@@ -111,26 +122,6 @@ export default function ContactPage() {
           </div>
         </div>
       </div>
-
-      {/* Footer */}
-      <footer className="container mx-auto px-4 py-8 md:py-12 border-t bg-white">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-              <FileText className="h-5 w-5 text-white" />
-            </div>
-            <span className="text-lg font-bold text-slate-900">QuickBill</span>
-          </div>
-          <div className="text-slate-500 text-sm">
-            © {new Date().getFullYear()} QuickBill. A BLUPRYNT product.
-          </div>
-          <div className="flex gap-6 text-sm text-slate-600">
-            <Link href="/privacy" className="hover:text-slate-900">Privacy</Link>
-            <Link href="/terms" className="hover:text-slate-900">Terms</Link>
-            <Link href="/contact" className="text-blue-600 font-medium">Contact</Link>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

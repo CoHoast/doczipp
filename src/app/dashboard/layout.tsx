@@ -1,6 +1,7 @@
 import Link from 'next/link';
-import { FileText, LayoutDashboard, Settings, CreditCard, Plus, LogOut } from 'lucide-react';
+import { LayoutDashboard, Settings, CreditCard, Plus, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { DOCzippLogo } from '@/components/layout/Header';
 
 export default function DashboardLayout({
   children,
@@ -8,19 +9,16 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-muted/30">
       {/* Header */}
-      <header className="bg-white border-b border-slate-200">
+      <header className="bg-background border-b">
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-              <FileText className="h-5 w-5 text-white" />
-            </div>
-            <span className="text-xl font-bold text-slate-900">QuickBill</span>
+          <Link href="/" className="flex items-center">
+            <DOCzippLogo />
           </Link>
           <div className="flex items-center gap-4">
             <Link href="/create">
-              <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
+              <Button size="sm" className="brand-gradient text-white hover:opacity-90">
                 <Plus className="h-4 w-4 mr-2" />
                 New Document
               </Button>
@@ -43,11 +41,11 @@ export default function DashboardLayout({
               <NavLink href="/dashboard/billing" icon={<CreditCard className="h-5 w-5" />}>
                 Billing
               </NavLink>
-              <hr className="my-4" />
+              <hr className="my-4 border-border" />
               <form action="/api/auth/signout" method="POST">
                 <button 
                   type="submit"
-                  className="w-full flex items-center gap-3 px-4 py-2.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
+                  className="w-full flex items-center gap-3 px-4 py-2.5 text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
                 >
                   <LogOut className="h-5 w-5" />
                   Sign Out
@@ -78,7 +76,7 @@ function NavLink({
   return (
     <Link
       href={href}
-      className="flex items-center gap-3 px-4 py-2.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
+      className="flex items-center gap-3 px-4 py-2.5 text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
     >
       {icon}
       <span>{children}</span>

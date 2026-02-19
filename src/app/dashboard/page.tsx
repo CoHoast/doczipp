@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 
 export const metadata = {
-  title: 'Dashboard | QuickBill',
+  title: 'Dashboard | DOCzipp',
   description: 'Manage your documents',
 };
 

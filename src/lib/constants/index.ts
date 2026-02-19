@@ -1,4 +1,4 @@
-// QuickBill Constants
+// DOCzipp Constants
 
 export const DOCUMENT_TYPES = [
   { value: 'invoice', label: 'Invoice' },

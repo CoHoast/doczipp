@@ -13,6 +13,8 @@ import {
 } from "next/font/google";
 import { ToastProvider } from "@/components/ui/toast";
 import { SessionProvider } from "@/components/providers/SessionProvider";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -27,9 +29,14 @@ const sourceSans = Source_Sans_3({ subsets: ["latin"], variable: "--font-sources
 const raleway = Raleway({ subsets: ["latin"], variable: "--font-raleway" });
 
 export const metadata: Metadata = {
-  title: "QuickBill - Create Professional Invoices in Seconds",
-  description: "Generate beautiful invoices, quotes, and receipts. No signup required. Download as PDF and get paid faster.",
-  keywords: ["invoice generator", "free invoice", "invoice template", "PDF invoice", "quote generator"],
+  title: "DOCzipp — Create Documents. Instantly.",
+  description: "The fastest way to create professional invoices, quotes, estimates, and receipts. No signup required. Download as PDF and get paid faster.",
+  keywords: ["invoice generator", "free invoice", "invoice template", "PDF invoice", "quote generator", "receipt maker", "doczipp"],
+  openGraph: {
+    title: "DOCzipp — Create Documents. Instantly.",
+    description: "The fastest way to create professional invoices, quotes, and receipts.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -38,11 +45,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.variable} ${roboto.variable} ${lato.variable} ${poppins.variable} ${openSans.variable} ${montserrat.variable} ${playfair.variable} ${merriweather.variable} ${sourceSans.variable} ${raleway.variable} font-sans antialiased`}>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${inter.variable} ${roboto.variable} ${lato.variable} ${poppins.variable} ${openSans.variable} ${montserrat.variable} ${playfair.variable} ${merriweather.variable} ${sourceSans.variable} ${raleway.variable} font-sans antialiased min-h-screen flex flex-col`}>
         <SessionProvider>
           <ToastProvider>
-            {children}
+            <Header />
+            <main className="flex-1">
+              {children}
+            </main>
+            <Footer />
           </ToastProvider>
         </SessionProvider>
       </body>

@@ -1,56 +1,241 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { FileText } from 'lucide-react';
-import { MobileMenu } from './MobileMenu';
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
+import { 
+  Menu, 
+  ChevronDown, 
+  FileText, 
+  Receipt, 
+  ClipboardList, 
+  FileCheck, 
+  FileOutput,
+  Sparkles,
+  Crown,
+  X
+} from "lucide-react";
+import { useState } from "react";
 
-interface HeaderProps {
-  currentPage?: 'home' | 'templates' | 'pricing' | 'create';
+const documentTypes = [
+  { name: "Invoice", href: "/create?type=invoice", icon: FileText, description: "Bill for completed work" },
+  { name: "Quote", href: "/create?type=quote", icon: ClipboardList, description: "Provide pricing upfront" },
+  { name: "Estimate", href: "/create?type=estimate", icon: FileCheck, description: "Rough project pricing" },
+  { name: "Receipt", href: "/create?type=receipt", icon: Receipt, description: "Confirm payment received" },
+  { name: "Proforma", href: "/create?type=proforma", icon: FileOutput, description: "Request advance payment" },
+];
+
+const features = [
+  { name: "Templates", href: "/templates", description: "5 professional designs" },
+  { name: "AI Assistant", href: "/create", description: "Smart suggestions", ai: true },
+  { name: "Custom Branding", href: "/create", description: "Your logo & colors" },
+];
+
+// DOCzipp Logo - Document icon with lightning bolt
+function DocZippIcon({ className = "", id = "doczipp" }: { className?: string; id?: string }) {
+  return (
+    <svg 
+      viewBox="0 0 28 32" 
+      className={className}
+      fill="none" 
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <defs>
+        <linearGradient id={`${id}-gradient`} x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#3B82F6" />
+          <stop offset="50%" stopColor="#6366F1" />
+          <stop offset="100%" stopColor="#8B5CF6" />
+        </linearGradient>
+      </defs>
+      {/* Document shape */}
+      <path 
+        d="M4 4C4 2.89543 4.89543 2 6 2H16L24 10V28C24 29.1046 23.1046 30 22 30H6C4.89543 30 4 29.1046 4 28V4Z" 
+        fill={`url(#${id}-gradient)`}
+        opacity="0.9"
+      />
+      {/* Folded corner */}
+      <path 
+        d="M16 2V8C16 9.10457 16.8954 10 18 10H24L16 2Z" 
+        fill="white"
+        opacity="0.3"
+      />
+      {/* Lightning bolt */}
+      <path 
+        d="M10 12H17L13 18H17L9 26L11 19H8L10 12Z" 
+        fill="white"
+      />
+    </svg>
+  );
 }
 
-export function Header({ currentPage }: HeaderProps) {
+function DOCzippLogo({ size = "default" }: { size?: "default" | "large" }) {
+  const isLarge = size === "large";
   return (
-    <header className="bg-white border-b border-slate-200">
-      <div className="container mx-auto px-4 py-3 md:py-4">
-        <nav className="flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 md:w-10 md:h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-              <FileText className="h-4 w-4 md:h-6 md:w-6 text-white" />
-            </div>
-            <span className="text-xl md:text-2xl font-bold text-slate-900">QuickBill</span>
+    <div className="flex items-center gap-1">
+      <DocZippIcon 
+        className={`${isLarge ? 'w-8 h-9' : 'w-7 h-8'}`} 
+        id={isLarge ? "header-doc" : "doc"}
+      />
+      <div className={`font-bold tracking-tight ${isLarge ? 'text-2xl' : 'text-xl'}`}>
+        <span className="text-foreground">DOC</span>
+        <span className="brand-gradient-text font-extrabold">zipp</span>
+      </div>
+    </div>
+  );
+}
+
+export function Header() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  return (
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container mx-auto px-4">
+        <div className="flex h-16 items-center justify-between">
+          {/* Logo */}
+          <Link href="/" className="flex items-center">
+            <DOCzippLogo size="large" />
           </Link>
-          
-          {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-4">
-            <Link 
-              href="/pricing" 
-              className={currentPage === 'pricing' ? 'text-blue-600 font-medium' : 'text-slate-600 hover:text-slate-900'}
-            >
-              Pricing
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center gap-1">
+            {/* Documents Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="gap-1">
+                  Documents
+                  <ChevronDown className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-56">
+                {documentTypes.map((doc) => (
+                  <DropdownMenuItem key={doc.href} asChild>
+                    <Link href={doc.href} className="flex items-center gap-3 cursor-pointer">
+                      <doc.icon className="h-4 w-4 text-muted-foreground" />
+                      <div>
+                        <div className="font-medium">{doc.name}</div>
+                        <div className="text-xs text-muted-foreground">{doc.description}</div>
+                      </div>
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {/* Features Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="gap-1">
+                  Features
+                  <ChevronDown className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-56">
+                {features.map((feature) => (
+                  <DropdownMenuItem key={feature.name} asChild>
+                    <Link href={feature.href} className="flex items-center gap-3 cursor-pointer">
+                      {feature.ai ? (
+                        <Sparkles className="h-4 w-4 text-purple-500" />
+                      ) : (
+                        <Crown className="h-4 w-4 text-amber-500" />
+                      )}
+                      <div>
+                        <div className="font-medium flex items-center gap-2">
+                          {feature.name}
+                          {feature.ai && <Sparkles className="h-3 w-3 text-purple-500" />}
+                        </div>
+                        <div className="text-xs text-muted-foreground">{feature.description}</div>
+                      </div>
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            <Link href="/templates">
+              <Button variant="ghost">Templates</Button>
             </Link>
-            <Link 
-              href="/templates" 
-              className={currentPage === 'templates' ? 'text-blue-600 font-medium' : 'text-slate-600 hover:text-slate-900'}
-            >
-              Templates
+
+            <Link href="/pricing">
+              <Button variant="ghost">Pricing</Button>
             </Link>
-            <Link href="/login">
-              <Button variant="outline" size="sm">Log In</Button>
-            </Link>
-            {currentPage !== 'create' && (
+          </nav>
+
+          {/* Right Side */}
+          <div className="flex items-center gap-2">
+            <div className="hidden md:flex items-center gap-2">
+              <Link href="/login">
+                <Button variant="ghost">Log in</Button>
+              </Link>
               <Link href="/create">
-                <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
-                  Get Started
+                <Button className="brand-gradient text-white hover:opacity-90">
+                  Create Document
                 </Button>
               </Link>
-            )}
+            </div>
+
+            {/* Mobile Menu Button */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="md:hidden"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </Button>
           </div>
-          
-          {/* Mobile nav */}
-          <MobileMenu />
-        </nav>
+        </div>
+
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden py-4 border-t">
+            <nav className="flex flex-col gap-2">
+              <div className="px-2 py-1 text-sm font-medium text-muted-foreground">Documents</div>
+              {documentTypes.map((doc) => (
+                <Link
+                  key={doc.href}
+                  href={doc.href}
+                  className="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-muted"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <doc.icon className="h-4 w-4" />
+                  {doc.name}
+                </Link>
+              ))}
+              <DropdownMenuSeparator />
+              <Link
+                href="/templates"
+                className="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-muted"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Templates
+              </Link>
+              <Link
+                href="/pricing"
+                className="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-muted"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Pricing
+              </Link>
+              <div className="flex gap-2 mt-4 px-2">
+                <Link href="/login" className="flex-1">
+                  <Button variant="outline" className="w-full">Log in</Button>
+                </Link>
+                <Link href="/create" className="flex-1">
+                  <Button className="w-full brand-gradient text-white">Create</Button>
+                </Link>
+              </div>
+            </nav>
+          </div>
+        )}
       </div>
     </header>
   );
 }
+
+export { DOCzippLogo, DocZippIcon };

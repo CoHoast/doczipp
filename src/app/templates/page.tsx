@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { FileText, ArrowRight, Check } from 'lucide-react';
-import { MobileMenu } from '@/components/layout/MobileMenu';
+import { Badge } from '@/components/ui/badge';
+import { FileText, ArrowRight, Check, Palette } from 'lucide-react';
 
 export const metadata = {
-  title: 'Templates | QuickBill',
+  title: 'Templates | DOCzipp',
   description: 'Choose from 5 professional templates for invoices, quotes, estimates, receipts and more.',
 };
 
@@ -13,7 +13,7 @@ const TEMPLATES = [
     id: 'clean',
     name: 'Clean',
     description: 'Minimal and modern design with clean lines. Perfect for tech and creative professionals.',
-    gradient: 'from-blue-500 to-indigo-600',
+    gradient: 'from-purple-500 to-pink-500',
     features: ['Minimal design', 'Modern typography', 'Lots of whitespace'],
   },
   {
@@ -27,21 +27,21 @@ const TEMPLATES = [
     id: 'minimal',
     name: 'Minimal',
     description: 'Simple and elegant with maximum whitespace. Less is more.',
-    gradient: 'from-gray-200 to-gray-400',
+    gradient: 'from-gray-300 to-gray-500',
     features: ['Ultra simple', 'Elegant styling', 'Focus on content'],
   },
   {
     id: 'professional',
     name: 'Professional',
     description: 'Traditional business style trusted by enterprises worldwide.',
-    gradient: 'from-blue-600 to-cyan-500',
+    gradient: 'from-pink-500 to-orange-500',
     features: ['Traditional layout', 'Business-focused', 'Trusted design'],
   },
   {
     id: 'creative',
     name: 'Creative',
     description: 'Colorful and unique design for creative agencies and freelancers.',
-    gradient: 'from-pink-500 to-orange-400',
+    gradient: 'from-purple-600 via-pink-500 to-orange-400',
     features: ['Colorful accents', 'Unique styling', 'Stand out'],
   },
 ];
@@ -56,55 +56,31 @@ const DOCUMENT_TYPES = [
 
 export default function TemplatesPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
-      {/* Header */}
-      <header className="container mx-auto px-4 py-4 md:py-6">
-        <nav className="flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 md:w-10 md:h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-              <FileText className="h-4 w-4 md:h-6 md:w-6 text-white" />
-            </div>
-            <span className="text-xl md:text-2xl font-bold text-slate-900">QuickBill</span>
-          </Link>
-          {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-4">
-            <Link href="/pricing" className="text-slate-600 hover:text-slate-900">
-              Pricing
-            </Link>
-            <Link href="/templates" className="text-blue-600 font-medium">
-              Templates
-            </Link>
-            <Link href="/login">
-              <Button variant="outline">Log In</Button>
-            </Link>
-            <Link href="/create">
-              <Button className="bg-blue-600 hover:bg-blue-700">
-                Get Started
-              </Button>
-            </Link>
-          </div>
-          {/* Mobile nav */}
-          <MobileMenu />
-        </nav>
-      </header>
-
+    <div>
       {/* Hero */}
-      <section className="container mx-auto px-4 py-12 md:py-16 text-center">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-          Professional Templates
-        </h1>
-        <p className="text-base md:text-xl text-slate-600 max-w-2xl mx-auto">
-          Choose from 5 beautifully designed templates. Customize colors and fonts to match your brand.
-        </p>
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 brand-gradient opacity-5" />
+        <div className="container mx-auto px-4 py-16 md:py-20 text-center relative">
+          <Badge className="mb-4 bg-primary/10 text-primary border-primary/20">
+            <Palette className="h-3 w-3 mr-1" />
+            5 Templates
+          </Badge>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            Professional <span className="brand-gradient-text">Templates</span>
+          </h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Choose from 5 beautifully designed templates. Customize colors and fonts to match your brand.
+          </p>
+        </div>
       </section>
 
       {/* Templates Grid */}
-      <section className="container mx-auto px-4 pb-12 md:pb-20">
+      <section className="container mx-auto px-4 pb-16 md:pb-20">
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {TEMPLATES.map((template) => (
             <div 
               key={template.id}
-              className="bg-white rounded-xl md:rounded-2xl border border-slate-200 overflow-hidden hover:shadow-lg transition-shadow"
+              className="tool-card bg-card rounded-xl md:rounded-2xl border overflow-hidden"
             >
               {/* Preview */}
               <div className={`h-40 md:h-48 bg-gradient-to-br ${template.gradient} p-4 md:p-6`}>
@@ -126,18 +102,18 @@ export default function TemplatesPage() {
               
               {/* Info */}
               <div className="p-4 md:p-6">
-                <h3 className="text-lg md:text-xl font-semibold text-slate-900 mb-2">{template.name}</h3>
-                <p className="text-sm text-slate-600 mb-4">{template.description}</p>
+                <h3 className="text-lg md:text-xl font-semibold mb-2">{template.name}</h3>
+                <p className="text-sm text-muted-foreground mb-4">{template.description}</p>
                 <ul className="space-y-1 mb-4">
                   {template.features.map((feature) => (
-                    <li key={feature} className="flex items-center gap-2 text-sm text-slate-600">
-                      <Check className="h-4 w-4 text-green-500" />
+                    <li key={feature} className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Check className="h-4 w-4 text-primary" />
                       {feature}
                     </li>
                   ))}
                 </ul>
                 <Link href={`/create?template=${template.id}`}>
-                  <Button className="w-full bg-blue-600 hover:bg-blue-700">
+                  <Button className="w-full brand-gradient text-white hover:opacity-90">
                     Use Template
                     <ArrowRight className="h-4 w-4 ml-2" />
                   </Button>
@@ -149,13 +125,13 @@ export default function TemplatesPage() {
       </section>
 
       {/* Document Types Section */}
-      <section className="bg-slate-50 py-12 md:py-20">
+      <section className="bg-muted/30 py-16 md:py-20 border-t">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-10 md:mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">
               Create Any Document You Need
             </h2>
-            <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto">
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Every template works with all document types. Switch between them instantly.
             </p>
           </div>
@@ -165,13 +141,14 @@ export default function TemplatesPage() {
               <Link 
                 key={docType.id}
                 href={`/create?type=${docType.id}`}
-                className="bg-white rounded-xl p-5 md:p-6 border border-slate-200 hover:border-blue-300 hover:shadow-md transition-all text-center"
               >
-                <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mx-auto mb-3">
-                  <FileText className="h-6 w-6 text-blue-600" />
+                <div className="tool-card bg-card rounded-xl p-5 md:p-6 border text-center cursor-pointer">
+                  <div className="w-12 h-12 brand-gradient rounded-xl flex items-center justify-center mx-auto mb-3">
+                    <FileText className="h-6 w-6 text-white" />
+                  </div>
+                  <h3 className="font-semibold mb-1">{docType.name}</h3>
+                  <p className="text-sm text-muted-foreground">{docType.description}</p>
                 </div>
-                <h3 className="font-semibold text-slate-900 mb-1">{docType.name}</h3>
-                <p className="text-sm text-slate-500">{docType.description}</p>
               </Link>
             ))}
           </div>
@@ -179,41 +156,25 @@ export default function TemplatesPage() {
       </section>
 
       {/* CTA */}
-      <section className="container mx-auto px-4 py-12 md:py-20">
-        <div className="bg-blue-600 rounded-2xl md:rounded-3xl p-8 md:p-12 text-center text-white">
-          <h2 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4">
-            Ready to Create Your First Document?
-          </h2>
-          <p className="text-blue-100 mb-6 md:mb-8 text-base md:text-lg">
-            Pick a template and start creating in seconds. No signup required.
-          </p>
-          <Link href="/create">
-            <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 text-base md:text-lg px-6 md:px-8 py-4 md:py-6 h-auto">
-              Get Started — It&apos;s Free
-            </Button>
-          </Link>
+      <section className="container mx-auto px-4 py-16 md:py-20">
+        <div className="relative rounded-3xl overflow-hidden brand-gradient p-8 md:p-16 text-center text-white">
+          <div className="relative z-10">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Ready to Create Your First Document?
+            </h2>
+            <p className="text-xl opacity-90 mb-8">
+              Pick a template and start creating in seconds. No signup required.
+            </p>
+            <Link href="/create">
+              <Button size="lg" variant="secondary" className="text-lg px-8">
+                Get Started — It's Free
+              </Button>
+            </Link>
+          </div>
+          <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full blur-3xl" />
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="container mx-auto px-4 py-8 md:py-12 border-t">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-              <FileText className="h-5 w-5 text-white" />
-            </div>
-            <span className="text-lg font-bold text-slate-900">QuickBill</span>
-          </div>
-          <div className="text-slate-500 text-sm">
-            © {new Date().getFullYear()} QuickBill. A BLUPRYNT product.
-          </div>
-          <div className="flex gap-6 text-sm text-slate-600">
-            <Link href="/privacy" className="hover:text-slate-900">Privacy</Link>
-            <Link href="/terms" className="hover:text-slate-900">Terms</Link>
-            <Link href="/contact" className="hover:text-slate-900">Contact</Link>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
