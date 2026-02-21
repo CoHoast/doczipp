@@ -29,6 +29,115 @@ import { InvoicePreview } from './InvoicePreview';
 
 const VALID_TYPES: DocumentType[] = ['invoice', 'quote', 'estimate', 'receipt', 'proforma', 'purchase-order', 'credit-note', 'timesheet'];
 
+// Document type specific labels and configuration
+const DOC_TYPE_CONFIG: Record<DocumentType, {
+  name: string;
+  numberLabel: string;
+  numberPrefix: string;
+  detailsTitle: string;
+  recipientTitle: string;
+  recipientLabel: string;
+  fromTitle: string;
+  showDueDate: boolean;
+  dueDateLabel?: string;
+  itemsLabel: string;
+}> = {
+  'invoice': {
+    name: 'Invoice',
+    numberLabel: 'Invoice Number',
+    numberPrefix: 'INV',
+    detailsTitle: 'Invoice Details',
+    recipientTitle: 'Bill To',
+    recipientLabel: 'Client',
+    fromTitle: 'Your Business',
+    showDueDate: true,
+    dueDateLabel: 'Due Date',
+    itemsLabel: 'Line Items',
+  },
+  'quote': {
+    name: 'Quote',
+    numberLabel: 'Quote Number',
+    numberPrefix: 'QUO',
+    detailsTitle: 'Quote Details',
+    recipientTitle: 'Quote For',
+    recipientLabel: 'Client',
+    fromTitle: 'Your Business',
+    showDueDate: true,
+    dueDateLabel: 'Valid Until',
+    itemsLabel: 'Line Items',
+  },
+  'estimate': {
+    name: 'Estimate',
+    numberLabel: 'Estimate Number',
+    numberPrefix: 'EST',
+    detailsTitle: 'Estimate Details',
+    recipientTitle: 'Estimate For',
+    recipientLabel: 'Client',
+    fromTitle: 'Your Business',
+    showDueDate: true,
+    dueDateLabel: 'Valid Until',
+    itemsLabel: 'Line Items',
+  },
+  'receipt': {
+    name: 'Receipt',
+    numberLabel: 'Receipt Number',
+    numberPrefix: 'REC',
+    detailsTitle: 'Receipt Details',
+    recipientTitle: 'Received From',
+    recipientLabel: 'Payer',
+    fromTitle: 'Your Business',
+    showDueDate: false,
+    itemsLabel: 'Items Paid',
+  },
+  'proforma': {
+    name: 'Proforma Invoice',
+    numberLabel: 'Proforma Number',
+    numberPrefix: 'PRO',
+    detailsTitle: 'Proforma Details',
+    recipientTitle: 'Bill To',
+    recipientLabel: 'Client',
+    fromTitle: 'Your Business',
+    showDueDate: true,
+    dueDateLabel: 'Due Date',
+    itemsLabel: 'Line Items',
+  },
+  'purchase-order': {
+    name: 'Purchase Order',
+    numberLabel: 'PO Number',
+    numberPrefix: 'PO',
+    detailsTitle: 'Order Details',
+    recipientTitle: 'Vendor',
+    recipientLabel: 'Vendor',
+    fromTitle: 'Ordered By',
+    showDueDate: true,
+    dueDateLabel: 'Delivery Date',
+    itemsLabel: 'Order Items',
+  },
+  'credit-note': {
+    name: 'Credit Note',
+    numberLabel: 'Credit Note Number',
+    numberPrefix: 'CN',
+    detailsTitle: 'Credit Note Details',
+    recipientTitle: 'Credit To',
+    recipientLabel: 'Client',
+    fromTitle: 'Your Business',
+    showDueDate: false,
+    itemsLabel: 'Credit Items',
+  },
+  'timesheet': {
+    name: 'Timesheet',
+    numberLabel: 'Timesheet Number',
+    numberPrefix: 'TS',
+    detailsTitle: 'Timesheet Details',
+    recipientTitle: 'Client',
+    recipientLabel: 'Client',
+    fromTitle: 'Your Business',
+    showDueDate: true,
+    dueDateLabel: 'Period End',
+    itemsLabel: 'Time Entries',
+  },
+};
+
 export function InvoiceBuilder() {
   const searchParams = useSearchParams();
   const typeParam = searchParams.get('type') as DocumentType | null;
@@ -36,6 +145,9 @@ export function InvoiceBuilder() {
   const [invoice, setInvoice] = useState<Partial<Invoice>>(() => createEmptyInvoice('invoice'));
   const [activeTab, setActiveTab] = useState('details');
   const [initialized, setInitialized] = useState(false);
+  
+  // Get config for current document type
+  const docConfig = DOC_TYPE_CONFIG[invoice.type || 'invoice'];
   
   // Set document type from URL param on mount
   useEffect(() => {
@@ -120,11 +232,7 @@ export function InvoiceBuilder() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 md:mb-8">
           <div>
             <h1 className="text-2xl md:text-3xl font-bold">
-              Create {invoice.type === 'invoice' ? 'Invoice' : 
-                      invoice.type === 'quote' ? 'Quote' :
-                      invoice.type === 'estimate' ? 'Estimate' :
-                      invoice.type === 'receipt' ? 'Receipt' :
-                      invoice.type === 'proforma' ? 'Proforma Invoice' : 'Document'}
+              Create {docConfig.name}
             </h1>
             <p className="text-sm md:text-base text-muted-foreground mt-1">Build your professional document</p>
           </div>
@@ -175,7 +283,7 @@ export function InvoiceBuilder() {
                 </Card>
 
                 <Card className="p-6">
-                  <h3 className="font-semibold mb-4">Your Business</h3>
+                  <h3 className="font-semibold mb-4">{docConfig.fromTitle}</h3>
                   <div className="space-y-4">
                     <div>
                       <Label>Logo</Label>
@@ -250,10 +358,10 @@ export function InvoiceBuilder() {
                 </Card>
 
                 <Card className="p-6">
-                  <h3 className="font-semibold mb-4">Bill To</h3>
+                  <h3 className="font-semibold mb-4">{docConfig.recipientTitle}</h3>
                   <div className="space-y-4">
                     <div>
-                      <Label htmlFor="to-name">Client Name</Label>
+                      <Label htmlFor="to-name">{docConfig.recipientLabel} Name</Label>
                       <Input
                         id="to-name"
                         value={invoice.to?.name || ''}
@@ -264,7 +372,7 @@ export function InvoiceBuilder() {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="to-email">Client Email</Label>
+                      <Label htmlFor="to-email">{docConfig.recipientLabel} Email</Label>
                       <Input
                         id="to-email"
                         type="email"
@@ -290,10 +398,10 @@ export function InvoiceBuilder() {
                 </Card>
 
                 <Card className="p-6">
-                  <h3 className="font-semibold mb-4">Invoice Details</h3>
+                  <h3 className="font-semibold mb-4">{docConfig.detailsTitle}</h3>
                   <div className="space-y-4">
                     <div>
-                      <Label htmlFor="invoice-number">Invoice Number</Label>
+                      <Label htmlFor="invoice-number">{docConfig.numberLabel}</Label>
                       <Input
                         id="invoice-number"
                         value={invoice.number || ''}
@@ -311,9 +419,9 @@ export function InvoiceBuilder() {
                           onChange={(e) => updateInvoice({ issueDate: e.target.value })}
                         />
                       </div>
-                      {invoice.type !== 'receipt' && (
+                      {docConfig.showDueDate && (
                         <div>
-                          <Label htmlFor="due-date">Due Date</Label>
+                          <Label htmlFor="due-date">{docConfig.dueDateLabel}</Label>
                           <Input
                             id="due-date"
                             type="date"
@@ -350,7 +458,7 @@ export function InvoiceBuilder() {
               {/* Items Tab */}
               <TabsContent value="items" className="space-y-4">
                 <Card className="p-6">
-                  <h3 className="font-semibold mb-4">Line Items</h3>
+                  <h3 className="font-semibold mb-4">{docConfig.itemsLabel}</h3>
                   <div className="space-y-4">
                     {invoice.lineItems?.map((item, index) => (
                       <div key={item.id} className="border rounded-lg p-4 space-y-4">
