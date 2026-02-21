@@ -1,10 +1,22 @@
 'use client';
 
-import { Invoice } from '@/lib/types/invoice';
+import { Invoice, DocumentType } from '@/lib/types/invoice';
 import { formatCurrency, formatDate } from '@/lib/utils/invoice';
 import { FONTS } from '@/lib/constants';
 import { getTemplate } from '@/lib/templates';
 import { cn } from '@/lib/utils';
+
+// Document type specific labels for preview
+const DOC_TYPE_LABELS: Record<DocumentType, { title: string; recipientLabel: string; dueDateLabel: string }> = {
+  'invoice': { title: 'INVOICE', recipientLabel: 'Bill To', dueDateLabel: 'Due' },
+  'quote': { title: 'QUOTE', recipientLabel: 'Quote For', dueDateLabel: 'Valid Until' },
+  'estimate': { title: 'ESTIMATE', recipientLabel: 'Estimate For', dueDateLabel: 'Valid Until' },
+  'receipt': { title: 'RECEIPT', recipientLabel: 'Received From', dueDateLabel: '' },
+  'proforma': { title: 'PROFORMA INVOICE', recipientLabel: 'Bill To', dueDateLabel: 'Due' },
+  'purchase-order': { title: 'PURCHASE ORDER', recipientLabel: 'Vendor', dueDateLabel: 'Delivery Date' },
+  'credit-note': { title: 'CREDIT NOTE', recipientLabel: 'Credit To', dueDateLabel: '' },
+  'timesheet': { title: 'TIMESHEET', recipientLabel: 'Client', dueDateLabel: 'Period End' },
+};
 
 interface InvoicePreviewProps {
   invoice: Partial<Invoice>;
@@ -22,13 +34,10 @@ export function InvoicePreview({ invoice, showWatermark = true }: InvoicePreview
   const template = getTemplate(invoice.settings?.template || 'clean');
   const styles = template.styles;
 
-  const documentTitle = invoice.type === 'invoice' ? 'INVOICE' :
-                        invoice.type === 'quote' ? 'QUOTE' :
-                        invoice.type === 'estimate' ? 'ESTIMATE' :
-                        invoice.type === 'receipt' ? 'RECEIPT' :
-                        invoice.type === 'purchase-order' ? 'PURCHASE ORDER' :
-                        invoice.type === 'credit-note' ? 'CREDIT NOTE' :
-                        invoice.type === 'timesheet' ? 'TIMESHEET' : 'PROFORMA INVOICE';
+  // Get document type specific labels
+  const docType = invoice.type || 'invoice';
+  const labels = DOC_TYPE_LABELS[docType] || DOC_TYPE_LABELS['invoice'];
+  const documentTitle = labels.title;
 
   // Border radius based on template
   const radiusClass = styles.borderRadius === 'none' ? '' : 
@@ -107,7 +116,7 @@ export function InvoicePreview({ invoice, showWatermark = true }: InvoicePreview
             </div>
             <div className="text-slate-500 text-xs mt-2">
               {invoice.number || 'INV-0001'} • {invoice.issueDate ? formatDate(invoice.issueDate) : 'Not set'}
-              {invoice.dueDate && invoice.type !== 'receipt' && ` • Due: ${formatDate(invoice.dueDate)}`}
+              {invoice.dueDate && labels.dueDateLabel && ` • ${labels.dueDateLabel}: ${formatDate(invoice.dueDate)}`}
             </div>
           </div>
         ) : (
@@ -144,21 +153,21 @@ export function InvoicePreview({ invoice, showWatermark = true }: InvoicePreview
               <div className="text-slate-600 text-xs space-y-0.5">
                 <div><span className="font-medium">Number:</span> {invoice.number || 'INV-0001'}</div>
                 <div><span className="font-medium">Date:</span> {invoice.issueDate ? formatDate(invoice.issueDate) : 'Not set'}</div>
-                {invoice.dueDate && invoice.type !== 'receipt' && (
-                  <div><span className="font-medium">Due:</span> {formatDate(invoice.dueDate)}</div>
+                {invoice.dueDate && labels.dueDateLabel && (
+                  <div><span className="font-medium">{labels.dueDateLabel}:</span> {formatDate(invoice.dueDate)}</div>
                 )}
               </div>
             </div>
           </div>
         )}
 
-        {/* Bill To */}
+        {/* Recipient (Bill To / Vendor / etc.) */}
         <div className="mb-8">
           <div 
             className={cn("text-xs uppercase tracking-wide mb-2", styles.fontWeight === 'bold' ? 'font-bold' : 'font-semibold')}
             style={{ color: primaryColor }}
           >
-            Bill To
+            {labels.recipientLabel}
           </div>
           <div className="text-slate-900">
             <div className="font-medium">{invoice.to?.name || 'Client Name'}</div>
