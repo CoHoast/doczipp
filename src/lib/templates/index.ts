@@ -4,13 +4,14 @@ export interface TemplateConfig {
   id: string;
   name: string;
   description: string;
-  preview: string; // Preview image path or gradient
+  preview: string; // Preview gradient
   styles: {
     headerLayout: 'split' | 'stacked' | 'centered';
-    tableStyle: 'striped' | 'bordered' | 'minimal';
+    tableStyle: 'striped' | 'bordered' | 'minimal' | 'modern';
     accentPosition: 'top' | 'left' | 'none';
     fontWeight: 'normal' | 'bold';
     borderRadius: 'none' | 'sm' | 'md' | 'lg';
+    headerBg: boolean; // Show colored background in header
   };
 }
 
@@ -18,7 +19,7 @@ export const TEMPLATES: TemplateConfig[] = [
   {
     id: 'clean',
     name: 'Clean',
-    description: 'Minimal and modern design with clean lines',
+    description: 'Minimal and modern design',
     preview: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
     styles: {
       headerLayout: 'split',
@@ -26,12 +27,13 @@ export const TEMPLATES: TemplateConfig[] = [
       accentPosition: 'none',
       fontWeight: 'normal',
       borderRadius: 'sm',
+      headerBg: false,
     },
   },
   {
     id: 'bold',
     name: 'Bold',
-    description: 'Strong headers with high contrast',
+    description: 'Strong headers, high contrast',
     preview: 'linear-gradient(135deg, #1e3a5f 0%, #0d2137 100%)',
     styles: {
       headerLayout: 'split',
@@ -39,12 +41,13 @@ export const TEMPLATES: TemplateConfig[] = [
       accentPosition: 'top',
       fontWeight: 'bold',
       borderRadius: 'none',
+      headerBg: true,
     },
   },
   {
     id: 'minimal',
     name: 'Minimal',
-    description: 'Simple and elegant with lots of whitespace',
+    description: 'Simple with whitespace',
     preview: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
     styles: {
       headerLayout: 'stacked',
@@ -52,6 +55,7 @@ export const TEMPLATES: TemplateConfig[] = [
       accentPosition: 'none',
       fontWeight: 'normal',
       borderRadius: 'none',
+      headerBg: false,
     },
   },
   {
@@ -65,12 +69,13 @@ export const TEMPLATES: TemplateConfig[] = [
       accentPosition: 'left',
       fontWeight: 'normal',
       borderRadius: 'sm',
+      headerBg: false,
     },
   },
   {
     id: 'creative',
     name: 'Creative',
-    description: 'Colorful and unique design',
+    description: 'Colorful and unique',
     preview: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
     styles: {
       headerLayout: 'centered',
@@ -78,6 +83,21 @@ export const TEMPLATES: TemplateConfig[] = [
       accentPosition: 'top',
       fontWeight: 'bold',
       borderRadius: 'lg',
+      headerBg: true,
+    },
+  },
+  {
+    id: 'executive',
+    name: 'Executive',
+    description: 'Premium corporate look',
+    preview: 'linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)',
+    styles: {
+      headerLayout: 'split',
+      tableStyle: 'modern',
+      accentPosition: 'left',
+      fontWeight: 'bold',
+      borderRadius: 'md',
+      headerBg: true,
     },
   },
 ];
