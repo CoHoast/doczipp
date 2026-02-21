@@ -32,6 +32,12 @@ export const metadata: Metadata = {
   title: "DOCZipp — Create Documents. Instantly.",
   description: "The fastest way to create professional invoices, quotes, estimates, and receipts. No signup required. Download as PDF and get paid faster.",
   keywords: ["invoice generator", "free invoice", "invoice template", "PDF invoice", "quote generator", "receipt maker", "doczipp"],
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+    ],
+    apple: '/favicon.svg',
+  },
   openGraph: {
     title: "DOCZipp — Create Documents. Instantly.",
     description: "The fastest way to create professional invoices, quotes, and receipts.",
