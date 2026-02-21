@@ -42,14 +42,10 @@ export default function SignupPage() {
       return;
     }
 
-    // If user is immediately confirmed (email confirmation disabled), redirect to dashboard
-    if (data.user && data.session) {
+    // Auto-login: go straight to dashboard
+    if (data.user) {
       router.push('/dashboard');
       router.refresh();
-    } else if (data.user && !data.session) {
-      // Email confirmation might be required OR auto-confirm is on
-      // Redirect to login with success message
-      router.push('/login?registered=true');
     }
   };
 
