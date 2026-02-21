@@ -7,7 +7,7 @@ export const stripe = process.env.STRIPE_SECRET_KEY
 export const PLANS = {
   free: {
     name: 'Free',
-    description: 'Perfect for trying out DOCzipp',
+    description: 'Perfect for trying out DOCZipp',
     price: 0,
     documentsPerMonth: 3,
     features: [
@@ -15,7 +15,7 @@ export const PLANS = {
       'All 5 document types',
       'Basic templates',
       'PDF download',
-      'DOCzipp watermark',
+      'DOCZipp watermark',
     ],
   },
   pro: {

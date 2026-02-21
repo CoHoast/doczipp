@@ -321,7 +321,7 @@ export default function Home() {
       <section className="container mx-auto px-4 py-16 border-t">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-12">
-            Why choose DOCzipp?
+            Why choose DOCZipp?
           </h2>
           <div className="grid md:grid-cols-2 gap-8">
             {[

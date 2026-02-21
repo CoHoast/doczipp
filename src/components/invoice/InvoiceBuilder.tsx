@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -27,8 +28,30 @@ import {
 import { InvoicePreview } from './InvoicePreview';
 
 export function InvoiceBuilder() {
-  const [invoice, setInvoice] = useState<Partial<Invoice>>(() => createEmptyInvoice());
+  const searchParams = useSearchParams();
+  const typeParam = searchParams.get('type') as DocumentType | null;
+  
+  const [invoice, setInvoice] = useState<Partial<Invoice>>(() => {
+    const validTypes: DocumentType[] = ['invoice', 'quote', 'estimate', 'receipt', 'proforma', 'purchase-order', 'credit-note', 'timesheet'];
+    const initialType = typeParam && validTypes.includes(typeParam) ? typeParam : 'invoice';
+    return createEmptyInvoice(initialType);
+  });
   const [activeTab, setActiveTab] = useState('details');
+  
+  // Update invoice type when URL param changes
+  useEffect(() => {
+    const validTypes: DocumentType[] = ['invoice', 'quote', 'estimate', 'receipt', 'proforma', 'purchase-order', 'credit-note', 'timesheet'];
+    if (typeParam && validTypes.includes(typeParam) && typeParam !== invoice.type) {
+      setInvoice(prev => ({
+        ...prev,
+        ...createEmptyInvoice(typeParam),
+        // Keep existing data
+        from: prev.from,
+        to: prev.to,
+        lineItems: prev.lineItems,
+      }));
+    }
+  }, [typeParam, invoice.type]);
 
   const updateInvoice = useCallback((updates: Partial<Invoice>) => {
     setInvoice(prev => {

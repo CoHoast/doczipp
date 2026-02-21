@@ -2,8 +2,8 @@ import { Badge } from '@/components/ui/badge';
 import { Shield } from 'lucide-react';
 
 export const metadata = {
-  title: 'Privacy Policy | DOCzipp',
-  description: 'DOCzipp privacy policy - how we handle your data',
+  title: 'Privacy Policy | DOCZipp',
+  description: 'DOCZipp privacy policy - how we handle your data',
 };
 
 export default function PrivacyPage() {
@@ -29,7 +29,7 @@ export default function PrivacyPage() {
           <div className="prose prose-slate dark:prose-invert max-w-none">
             <h2 className="text-xl font-semibold mt-8 mb-4">1. Information We Collect</h2>
             <p className="text-muted-foreground mb-4">
-              DOCzipp collects information you provide directly to us, including when you create documents, 
+              DOCZipp collects information you provide directly to us, including when you create documents, 
               set up an account, or contact us for support. This may include your name, email address, 
               business information, and document content.
             </p>
@@ -42,7 +42,7 @@ export default function PrivacyPage() {
 
             <h2 className="text-xl font-semibold mt-8 mb-4">3. Data Storage</h2>
             <p className="text-muted-foreground mb-4">
-              If you use DOCzipp without an account, your document data is processed in your browser 
+              If you use DOCZipp without an account, your document data is processed in your browser 
               and is not stored on our servers. If you create an account, your documents are stored 
               securely using industry-standard encryption.
             </p>

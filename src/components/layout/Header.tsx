@@ -40,11 +40,11 @@ const features = [
   { name: "Custom Branding", href: "/create", description: "Your logo & colors" },
 ];
 
-// DOCzipp Logo - Document icon with lightning bolt
+// DOCZipp Logo - Lightning bolt (matches other ZIPP sites)
 function DocZippIcon({ className = "", id = "doczipp" }: { className?: string; id?: string }) {
   return (
     <svg 
-      viewBox="0 0 28 32" 
+      viewBox="0 0 24 32" 
       className={className}
       fill="none" 
       xmlns="http://www.w3.org/2000/svg"
@@ -56,39 +56,27 @@ function DocZippIcon({ className = "", id = "doczipp" }: { className?: string; i
           <stop offset="100%" stopColor="#0EA5E9" />
         </linearGradient>
       </defs>
-      {/* Document shape */}
-      <path 
-        d="M4 4C4 2.89543 4.89543 2 6 2H16L24 10V28C24 29.1046 23.1046 30 22 30H6C4.89543 30 4 29.1046 4 28V4Z" 
-        fill={`url(#${id}-gradient)`}
-        opacity="0.9"
-      />
-      {/* Folded corner */}
-      <path 
-        d="M16 2V8C16 9.10457 16.8954 10 18 10H24L16 2Z" 
-        fill="white"
-        opacity="0.3"
-      />
       {/* Lightning bolt */}
       <path 
-        d="M10 12H17L13 18H17L9 26L11 19H8L10 12Z" 
-        fill="white"
+        d="M5 2H20L11 14H19L4 30L9 16H2L5 2Z" 
+        fill={`url(#${id}-gradient)`}
       />
     </svg>
   );
 }
 
-function DOCzippLogo({ size = "default" }: { size?: "default" | "large" }) {
+function DOCZippLogo({ size = "default" }: { size?: "default" | "large" }) {
   const isLarge = size === "large";
   return (
     <div className="flex items-center gap-1">
       <DocZippIcon 
-        className={`${isLarge ? 'w-8 h-9' : 'w-7 h-8'}`} 
+        className={`${isLarge ? 'w-7 h-9' : 'w-6 h-8'}`} 
         id={isLarge ? "header-doc" : "doc"}
       />
-      <div className={`font-bold tracking-tight ${isLarge ? 'text-2xl' : 'text-xl'}`}>
+      <span className={`font-bold tracking-tight ${isLarge ? 'text-2xl' : 'text-xl'}`}>
         <span className="text-foreground">DOC</span>
-        <span className="brand-gradient-text font-extrabold">zipp</span>
-      </div>
+        <span className="brand-gradient-text font-extrabold">Zipp</span>
+      </span>
     </div>
   );
 }
@@ -103,7 +91,7 @@ export function Header() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center">
-            <DOCzippLogo size="large" />
+            <DOCZippLogo size="large" />
           </Link>
 
           {/* Desktop Navigation */}
@@ -301,4 +289,4 @@ export function Header() {
   );
 }
 
-export { DOCzippLogo, DocZippIcon };
+export { DOCZippLogo, DocZippIcon };

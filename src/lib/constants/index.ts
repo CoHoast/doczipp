@@ -1,4 +1,4 @@
-// DOCzipp Constants
+// DOCZipp Constants
 
 export const DOCUMENT_TYPES = [
   { value: 'invoice', label: 'Invoice' },

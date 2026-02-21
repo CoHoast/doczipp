@@ -2,8 +2,8 @@ import { Badge } from '@/components/ui/badge';
 import { FileText } from 'lucide-react';
 
 export const metadata = {
-  title: 'Terms of Service | DOCzipp',
-  description: 'DOCzipp terms of service',
+  title: 'Terms of Service | DOCZipp',
+  description: 'DOCZipp terms of service',
 };
 
 export default function TermsPage() {
@@ -29,19 +29,19 @@ export default function TermsPage() {
           <div className="prose prose-slate dark:prose-invert max-w-none">
             <h2 className="text-xl font-semibold mt-8 mb-4">1. Acceptance of Terms</h2>
             <p className="text-muted-foreground mb-4">
-              By accessing or using DOCzipp, you agree to be bound by these Terms of Service. 
+              By accessing or using DOCZipp, you agree to be bound by these Terms of Service. 
               If you do not agree to these terms, please do not use our service.
             </p>
 
             <h2 className="text-xl font-semibold mt-8 mb-4">2. Description of Service</h2>
             <p className="text-muted-foreground mb-4">
-              DOCzipp provides an online platform for creating professional business documents 
+              DOCZipp provides an online platform for creating professional business documents 
               including invoices, quotes, estimates, receipts, and proforma invoices.
             </p>
 
             <h2 className="text-xl font-semibold mt-8 mb-4">3. User Accounts</h2>
             <p className="text-muted-foreground mb-4">
-              You may use DOCzipp without creating an account, subject to certain limitations. 
+              You may use DOCZipp without creating an account, subject to certain limitations. 
               To access premium features, you must create an account and provide accurate information.
             </p>
 
@@ -54,13 +54,13 @@ export default function TermsPage() {
 
             <h2 className="text-xl font-semibold mt-8 mb-4">5. Acceptable Use</h2>
             <p className="text-muted-foreground mb-4">
-              You agree not to use DOCzipp for any unlawful purpose or in any way that could damage, 
+              You agree not to use DOCZipp for any unlawful purpose or in any way that could damage, 
               disable, or impair our service. You are responsible for all content you create using our platform.
             </p>
 
             <h2 className="text-xl font-semibold mt-8 mb-4">6. Limitation of Liability</h2>
             <p className="text-muted-foreground mb-4">
-              DOCzipp is provided &quot;as is&quot; without warranties of any kind. We are not liable for any 
+              DOCZipp is provided &quot;as is&quot; without warranties of any kind. We are not liable for any 
               indirect, incidental, or consequential damages arising from your use of the service.
             </p>
 

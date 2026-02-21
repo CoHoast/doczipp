@@ -217,7 +217,7 @@ export function InvoicePDF({ invoice, showWatermark = true }: InvoicePDFProps) {
       <Page size="A4" style={styles.page}>
         {/* Watermark */}
         {showWatermark && (
-          <Text style={styles.watermark}>DOCzipp</Text>
+          <Text style={styles.watermark}>DOCZipp</Text>
         )}
 
         {/* Header */}

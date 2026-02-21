@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Check, Sparkles, Crown, Zap } from 'lucide-react';
 
 export const metadata = {
-  title: 'Pricing | DOCzipp',
+  title: 'Pricing | DOCZipp',
   description: 'Simple, transparent pricing for freelancers, small businesses, and teams.',
 };
 
@@ -13,13 +13,13 @@ const PLANS = [
     name: 'Free',
     price: '$0',
     period: 'forever',
-    description: 'Perfect for trying out DOCzipp',
+    description: 'Perfect for trying out DOCZipp',
     features: [
       '3 documents per month',
       'All 5 document types',
       'Basic templates',
       'PDF download',
-      'DOCzipp watermark',
+      'DOCZipp watermark',
     ],
     notIncluded: [
       'Custom branding',
@@ -196,7 +196,7 @@ export default function PricingPage() {
           </h2>
           <div className="max-w-3xl mx-auto space-y-6">
             <FaqItem 
-              question="Can I try DOCzipp for free?"
+              question="Can I try DOCZipp for free?"
               answer="Yes! You can create up to 3 documents per month completely free. No credit card required."
             />
             <FaqItem 

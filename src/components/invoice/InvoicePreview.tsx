@@ -30,7 +30,7 @@ export function InvoicePreview({ invoice, showWatermark = true }: InvoicePreview
       {showWatermark && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-10">
           <div className="text-6xl font-bold text-slate-400 rotate-[-30deg]">
-            DOCzipp
+            DOCZipp
           </div>
         </div>
       )}

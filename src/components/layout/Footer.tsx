@@ -1,35 +1,25 @@
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 
-// DOCzipp Logo Icon
+// DOCZipp Logo Icon - Lightning bolt (matches other ZIPP sites)
 function DocZippIcon({ className = "", id = "footer-doc" }: { className?: string; id?: string }) {
   return (
     <svg 
-      viewBox="0 0 28 32" 
+      viewBox="0 0 24 32" 
       className={className}
       fill="none" 
       xmlns="http://www.w3.org/2000/svg"
     >
       <defs>
         <linearGradient id={`${id}-gradient`} x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#3B82F6" />
-          <stop offset="50%" stopColor="#6366F1" />
-          <stop offset="100%" stopColor="#8B5CF6" />
+          <stop offset="0%" stopColor="#4F46E5" />
+          <stop offset="50%" stopColor="#3B82F6" />
+          <stop offset="100%" stopColor="#0EA5E9" />
         </linearGradient>
       </defs>
       <path 
-        d="M4 4C4 2.89543 4.89543 2 6 2H16L24 10V28C24 29.1046 23.1046 30 22 30H6C4.89543 30 4 29.1046 4 28V4Z" 
+        d="M5 2H20L11 14H19L4 30L9 16H2L5 2Z" 
         fill={`url(#${id}-gradient)`}
-        opacity="0.9"
-      />
-      <path 
-        d="M16 2V8C16 9.10457 16.8954 10 18 10H24L16 2Z" 
-        fill="white"
-        opacity="0.3"
-      />
-      <path 
-        d="M10 12H17L13 18H17L9 26L11 19H8L10 12Z" 
-        fill="white"
       />
     </svg>
   );
@@ -62,11 +52,11 @@ export function Footer() {
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <Link href="/" className="flex items-center gap-1 mb-4">
-              <DocZippIcon className="w-7 h-8" />
-              <div className="font-bold text-xl tracking-tight">
+              <DocZippIcon className="w-6 h-8" />
+              <span className="font-bold text-xl tracking-tight">
                 <span>DOC</span>
-                <span className="brand-gradient-text font-extrabold">zipp</span>
-              </div>
+                <span className="brand-gradient-text font-extrabold">Zipp</span>
+              </span>
             </Link>
             <p className="text-sm text-muted-foreground">
               Create professional invoices, quotes, and receipts in seconds. Get paid faster.
@@ -129,7 +119,7 @@ export function Footer() {
 
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} DOCzipp. All rights reserved.
+            © {new Date().getFullYear()} DOCZipp. All rights reserved.
           </p>
           <p className="text-sm text-muted-foreground">
             A{" "}

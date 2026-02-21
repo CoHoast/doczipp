@@ -3,7 +3,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 export const metadata = {
-  title: 'Account Settings | DOCzipp',
+  title: 'Account Settings | DOCZipp',
   description: 'Manage your account settings',
 };
 

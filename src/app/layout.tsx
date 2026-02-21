@@ -29,11 +29,11 @@ const sourceSans = Source_Sans_3({ subsets: ["latin"], variable: "--font-sources
 const raleway = Raleway({ subsets: ["latin"], variable: "--font-raleway" });
 
 export const metadata: Metadata = {
-  title: "DOCzipp — Create Documents. Instantly.",
+  title: "DOCZipp — Create Documents. Instantly.",
   description: "The fastest way to create professional invoices, quotes, estimates, and receipts. No signup required. Download as PDF and get paid faster.",
   keywords: ["invoice generator", "free invoice", "invoice template", "PDF invoice", "quote generator", "receipt maker", "doczipp"],
   openGraph: {
-    title: "DOCzipp — Create Documents. Instantly.",
+    title: "DOCZipp — Create Documents. Instantly.",
     description: "The fastest way to create professional invoices, quotes, and receipts.",
     type: "website",
   },

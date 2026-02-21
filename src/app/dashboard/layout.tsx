@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { LayoutDashboard, Settings, CreditCard, Plus, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { DOCzippLogo } from '@/components/layout/Header';
+import { DOCZippLogo } from '@/components/layout/Header';
 
 export default function DashboardLayout({
   children,
@@ -14,7 +14,7 @@ export default function DashboardLayout({
       <header className="bg-background border-b sticky top-0 z-40">
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
           <Link href="/" className="flex items-center">
-            <DOCzippLogo />
+            <DOCZippLogo />
           </Link>
           <div className="flex items-center gap-4">
             <Link href="/create">

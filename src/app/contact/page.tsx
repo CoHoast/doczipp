@@ -7,8 +7,8 @@ import { Badge } from '@/components/ui/badge';
 import { Mail, MessageSquare, HelpCircle } from 'lucide-react';
 
 export const metadata = {
-  title: 'Contact Us | DOCzipp',
-  description: 'Get in touch with the DOCzipp team',
+  title: 'Contact Us | DOCZipp',
+  description: 'Get in touch with the DOCZipp team',
 };
 
 export default function ContactPage() {

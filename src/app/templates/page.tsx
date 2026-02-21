@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { FileText, ArrowRight, Check, Palette } from 'lucide-react';
 
 export const metadata = {
-  title: 'Templates | DOCzipp',
+  title: 'Templates | DOCZipp',
   description: 'Choose from 5 professional templates for invoices, quotes, estimates, receipts and more.',
 };
 
