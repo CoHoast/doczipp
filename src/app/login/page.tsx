@@ -7,8 +7,6 @@ import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Header } from '@/components/layout/Header';
-import { Footer } from '@/components/layout/Footer';
 
 function LoginForm() {
   const [email, setEmail] = useState('');
@@ -136,16 +134,12 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <>
-      <Header />
-      <Suspense fallback={
-        <div className="min-h-[calc(100vh-200px)] flex items-center justify-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-        </div>
-      }>
-        <LoginForm />
-      </Suspense>
-      <Footer />
-    </>
+    <Suspense fallback={
+      <div className="min-h-[calc(100vh-200px)] flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    }>
+      <LoginForm />
+    </Suspense>
   );
 }

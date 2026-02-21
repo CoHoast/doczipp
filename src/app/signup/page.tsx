@@ -7,8 +7,6 @@ import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Header } from '@/components/layout/Header';
-import { Footer } from '@/components/layout/Footer';
 
 export default function SignupPage() {
   const [email, setEmail] = useState('');
@@ -50,9 +48,7 @@ export default function SignupPage() {
   };
 
   return (
-    <>
-      <Header />
-      <div className="min-h-[calc(100vh-200px)] flex items-center justify-center py-12 px-4">
+    <div className="min-h-[calc(100vh-200px)] flex items-center justify-center py-12 px-4">
         <div className="max-w-md w-full space-y-8">
           <div className="text-center">
             <div className="flex justify-center mb-4">
@@ -140,7 +136,5 @@ export default function SignupPage() {
           </p>
         </div>
       </div>
-      <Footer />
-    </>
   );
 }
