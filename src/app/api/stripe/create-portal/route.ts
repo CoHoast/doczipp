@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
-import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import { createClient } from "@/lib/supabase/server";
 
 export async function POST() {
   try {
@@ -12,30 +11,35 @@ export async function POST() {
       );
     }
 
-    const session = await auth();
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
     
-    if (!session?.user?.id) {
+    if (!user?.id) {
       return NextResponse.json(
         { error: "You must be logged in" },
         { status: 401 }
       );
     }
 
-    const user = await prisma.user.findUnique({
-      where: { id: session.user.id },
-      select: { stripeCustomerId: true },
-    });
+    // Get user's stripe customer ID from profiles table
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('stripe_customer_id')
+      .eq('id', user.id)
+      .single();
 
-    if (!user?.stripeCustomerId) {
+    if (!profile?.stripe_customer_id) {
       return NextResponse.json(
         { error: "No billing account found" },
         { status: 400 }
       );
     }
 
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://doczipp-production.up.railway.app';
+
     const portalSession = await stripe.billingPortal.sessions.create({
-      customer: user.stripeCustomerId,
-      return_url: `${process.env.NEXTAUTH_URL}/dashboard/billing`,
+      customer: profile.stripe_customer_id,
+      return_url: `${baseUrl}/dashboard/billing`,
     });
 
     return NextResponse.json({ url: portalSession.url });

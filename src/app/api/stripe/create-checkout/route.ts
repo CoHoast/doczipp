@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
-import { auth } from "@/lib/auth";
+import { createClient } from "@/lib/supabase/server";
 
 export async function POST(request: Request) {
   try {
@@ -11,9 +11,10 @@ export async function POST(request: Request) {
       );
     }
 
-    const session = await auth();
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
     
-    if (!session?.user?.email) {
+    if (!user?.email) {
       return NextResponse.json(
         { error: "You must be logged in to upgrade" },
         { status: 401 }
@@ -34,6 +35,8 @@ export async function POST(request: Request) {
       );
     }
 
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://doczipp-production.up.railway.app';
+
     const checkoutSession = await stripe.checkout.sessions.create({
       mode: 'subscription',
       payment_method_types: ['card'],
@@ -43,11 +46,11 @@ export async function POST(request: Request) {
           quantity: 1,
         },
       ],
-      customer_email: session.user.email as string,
-      success_url: `${process.env.NEXTAUTH_URL}/dashboard/billing?success=true`,
-      cancel_url: `${process.env.NEXTAUTH_URL}/dashboard/billing?canceled=true`,
+      customer_email: user.email,
+      success_url: `${baseUrl}/dashboard/billing?success=true`,
+      cancel_url: `${baseUrl}/dashboard/billing?canceled=true`,
       metadata: {
-        userId: session.user.id as string,
+        userId: user.id,
       },
     });
 

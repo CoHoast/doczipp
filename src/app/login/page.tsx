@@ -1,130 +1,129 @@
 'use client';
 
-import { useState, Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { signIn } from 'next-auth/react';
+import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Loader2, CheckCircle } from 'lucide-react';
+import { Header } from '@/components/layout/Header';
+import { Footer } from '@/components/layout/Footer';
 
 function LoginForm() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
   const registered = searchParams.get('registered');
-  
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const redirect = searchParams.get('redirect') || '/dashboard';
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    setError('');
+    setError(null);
+    setLoading(true);
 
-    const formData = new FormData(e.currentTarget);
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
+    const supabase = createClient();
+    
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
 
-    try {
-      const result = await signIn('credentials', {
-        email,
-        password,
-        redirect: false,
-      });
-
-      if (result?.error) {
-        setError('Invalid email or password');
-        return;
-      }
-
-      router.push('/dashboard');
-    } catch (err) {
-      setError('Something went wrong. Please try again.');
-    } finally {
-      setIsLoading(false);
+    if (error) {
+      setError(error.message);
+      setLoading(false);
+      return;
     }
+
+    router.push(redirect);
+    router.refresh();
   };
 
   return (
-    <div className="min-h-[calc(100vh-8rem)] flex items-center justify-center px-4 py-12">
-      <div className="w-full max-w-md">
-        <div className="bg-card rounded-2xl p-8 shadow-sm border">
-          <div className="text-center mb-8">
-            <h1 className="text-2xl font-bold mb-2">Welcome back</h1>
-            <p className="text-muted-foreground">Log in to your DOCZipp account</p>
+    <div className="min-h-[calc(100vh-200px)] flex items-center justify-center py-12 px-4">
+      <div className="max-w-md w-full space-y-8">
+        <div className="text-center">
+          <div className="flex justify-center mb-4">
+            <svg viewBox="0 0 24 32" className="w-10 h-14" fill="none">
+              <defs>
+                <linearGradient id="login-bolt" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#4F46E5"/>
+                  <stop offset="50%" stopColor="#3B82F6"/>
+                  <stop offset="100%" stopColor="#0EA5E9"/>
+                </linearGradient>
+              </defs>
+              <path d="M5 2H20L11 14H19L4 30L9 16H2L5 2Z" fill="url(#login-bolt)"/>
+            </svg>
           </div>
+          <h2 className="text-3xl font-extrabold text-gray-900">Welcome back</h2>
+          <p className="mt-2 text-muted-foreground">
+            Log in to your DOCZipp account
+          </p>
+        </div>
 
+        <div className="bg-white rounded-xl border p-8 space-y-6">
           {registered && (
-            <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center gap-3">
-              <CheckCircle className="h-5 w-5 text-green-600" />
-              <span className="text-green-700 text-sm">Account created! Please log in.</span>
+            <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg text-sm flex items-center gap-2">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              Account created! Please log in.
             </div>
           )}
 
-          {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
-              {error}
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleLogin} className="space-y-4">
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+                {error}
+              </div>
+            )}
+            
             <div>
               <Label htmlFor="email">Email</Label>
-              <Input 
+              <Input
                 id="email"
-                name="email" 
-                type="email" 
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
-                required
                 className="mt-1"
+                required
               />
             </div>
             <div>
-              <Label htmlFor="password">Password</Label>
-              <Input 
+              <div className="flex justify-between">
+                <Label htmlFor="password">Password</Label>
+                <Link href="/forgot-password" className="text-sm text-primary hover:underline">
+                  Forgot password?
+                </Link>
+              </div>
+              <Input
                 id="password"
-                name="password" 
-                type="password" 
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                required
                 className="mt-1"
+                required
               />
             </div>
-            <div className="flex items-center justify-between text-sm">
-              <label className="flex items-center gap-2">
-                <input type="checkbox" className="rounded border-border" />
-                <span className="text-muted-foreground">Remember me</span>
-              </label>
-              <Link href="/forgot-password" className="text-primary hover:underline">
-                Forgot password?
-              </Link>
-            </div>
-            <Button 
-              type="submit" 
-              className="w-full brand-gradient text-white hover:opacity-90"
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                  Logging in...
-                </>
-              ) : (
-                'Log In'
-              )}
+            <Button type="submit" className="w-full brand-gradient text-white" disabled={loading}>
+              {loading ? 'Logging in...' : 'Log In'}
             </Button>
           </form>
 
-          <div className="mt-6 text-center text-sm text-muted-foreground">
+          <p className="text-center text-muted-foreground text-sm">
             Don&apos;t have an account?{' '}
             <Link href="/signup" className="text-primary hover:underline font-medium">
               Sign up
             </Link>
-          </div>
+          </p>
         </div>
 
-        <p className="text-center text-sm text-muted-foreground mt-6">
+        <p className="text-center text-muted-foreground text-sm">
           Or{' '}
           <Link href="/create" className="text-primary hover:underline">
             create a document without signing up
@@ -137,12 +136,16 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-[calc(100vh-8rem)] flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
-    }>
-      <LoginForm />
-    </Suspense>
+    <>
+      <Header />
+      <Suspense fallback={
+        <div className="min-h-[calc(100vh-200px)] flex items-center justify-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+        </div>
+      }>
+        <LoginForm />
+      </Suspense>
+      <Footer />
+    </>
   );
 }
