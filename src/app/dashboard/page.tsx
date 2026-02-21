@@ -44,13 +44,13 @@ export default function DashboardPage() {
   return (
     <div>
       {/* Header */}
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">My Documents</h1>
-          <p className="text-slate-600">Manage and track all your documents</p>
+          <h1 className="text-xl sm:text-2xl font-bold text-slate-900">My Documents</h1>
+          <p className="text-sm sm:text-base text-slate-600">Manage and track all your documents</p>
         </div>
         <Link href="/create">
-          <Button className="bg-blue-600 hover:bg-blue-700">
+          <Button className="brand-gradient text-white w-full sm:w-auto">
             <Plus className="h-4 w-4 mr-2" />
             New Document
           </Button>
@@ -58,30 +58,63 @@ export default function DashboardPage() {
       </div>
 
       {/* Filters */}
-      <div className="flex gap-4 mb-6">
-        <div className="relative flex-1 max-w-sm">
+      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-6">
+        <div className="relative flex-1 sm:max-w-sm">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
           <Input placeholder="Search documents..." className="pl-10" />
         </div>
-        <select className="px-4 py-2 border border-slate-200 rounded-lg bg-white text-slate-600">
-          <option value="">All Types</option>
-          <option value="invoice">Invoices</option>
-          <option value="quote">Quotes</option>
-          <option value="estimate">Estimates</option>
-          <option value="receipt">Receipts</option>
-          <option value="proforma">Proforma</option>
-        </select>
-        <select className="px-4 py-2 border border-slate-200 rounded-lg bg-white text-slate-600">
-          <option value="">All Status</option>
-          <option value="draft">Draft</option>
-          <option value="sent">Sent</option>
-          <option value="paid">Paid</option>
-          <option value="overdue">Overdue</option>
-        </select>
+        <div className="flex gap-2 sm:gap-4">
+          <select className="flex-1 sm:flex-none px-3 sm:px-4 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-600">
+            <option value="">All Types</option>
+            <option value="invoice">Invoices</option>
+            <option value="quote">Quotes</option>
+            <option value="estimate">Estimates</option>
+            <option value="receipt">Receipts</option>
+            <option value="proforma">Proforma</option>
+          </select>
+          <select className="flex-1 sm:flex-none px-3 sm:px-4 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-600">
+            <option value="">All Status</option>
+            <option value="draft">Draft</option>
+            <option value="sent">Sent</option>
+            <option value="paid">Paid</option>
+            <option value="overdue">Overdue</option>
+          </select>
+        </div>
       </div>
 
-      {/* Documents Table */}
-      <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+      {/* Documents - Table on desktop, Cards on mobile */}
+      {/* Mobile Cards */}
+      <div className="sm:hidden space-y-3">
+        {MOCK_DOCUMENTS.map((doc) => (
+          <div key={doc.id} className="bg-white rounded-xl border border-slate-200 p-4">
+            <div className="flex items-start justify-between mb-3">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 brand-gradient rounded-lg flex items-center justify-center">
+                  <FileText className="h-5 w-5 text-white" />
+                </div>
+                <div>
+                  <div className="font-medium text-slate-900">{doc.number}</div>
+                  <div className="text-xs text-slate-500 capitalize">{doc.type}</div>
+                </div>
+              </div>
+              <button className="p-2 hover:bg-slate-100 rounded-lg">
+                <MoreHorizontal className="h-5 w-5 text-slate-400" />
+              </button>
+            </div>
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-slate-600">{doc.clientName}</span>
+              <span className="font-semibold text-slate-900">${doc.total.toLocaleString()}</span>
+            </div>
+            <div className="flex items-center justify-between mt-2">
+              <span className="text-xs text-slate-500">{doc.createdAt}</span>
+              <StatusBadge status={doc.status} />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop Table */}
+      <div className="hidden sm:block bg-white rounded-xl border border-slate-200 overflow-hidden">
         <table className="w-full">
           <thead>
             <tr className="border-b border-slate-200 bg-slate-50">
@@ -98,8 +131,8 @@ export default function DashboardPage() {
               <tr key={doc.id} className="border-b border-slate-100 hover:bg-slate-50">
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center">
-                      <FileText className="h-5 w-5 text-blue-600" />
+                    <div className="w-10 h-10 brand-gradient rounded-lg flex items-center justify-center">
+                      <FileText className="h-5 w-5 text-white" />
                     </div>
                     <div>
                       <div className="font-medium text-slate-900">{doc.number}</div>
@@ -128,14 +161,14 @@ export default function DashboardPage() {
 
       {/* Empty state (show when no documents) */}
       {MOCK_DOCUMENTS.length === 0 && (
-        <div className="bg-white rounded-xl border border-slate-200 p-12 text-center">
-          <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <FileText className="h-8 w-8 text-slate-400" />
+        <div className="bg-white rounded-xl border border-slate-200 p-8 sm:p-12 text-center">
+          <div className="w-14 h-14 sm:w-16 sm:h-16 brand-gradient rounded-full flex items-center justify-center mx-auto mb-4">
+            <FileText className="h-7 w-7 sm:h-8 sm:w-8 text-white" />
           </div>
-          <h3 className="text-lg font-medium text-slate-900 mb-2">No documents yet</h3>
-          <p className="text-slate-600 mb-6">Create your first document to get started</p>
+          <h3 className="text-base sm:text-lg font-medium text-slate-900 mb-2">No documents yet</h3>
+          <p className="text-sm sm:text-base text-slate-600 mb-6">Create your first document to get started</p>
           <Link href="/create">
-            <Button className="bg-blue-600 hover:bg-blue-700">
+            <Button className="brand-gradient text-white">
               <Plus className="h-4 w-4 mr-2" />
               Create Document
             </Button>

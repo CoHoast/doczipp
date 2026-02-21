@@ -104,12 +104,12 @@ function DocumentCard({ name, description, href, icon: Icon }: {
 }) {
   return (
     <Link href={href}>
-      <div className="tool-card bg-card rounded-xl p-6 border hover:border-primary/50 cursor-pointer">
-        <div className="tool-icon w-12 h-12 brand-gradient rounded-lg flex items-center justify-center mb-4 transition-transform">
-          <Icon className="h-6 w-6 text-white" />
+      <div className="tool-card bg-card rounded-xl p-3 sm:p-6 border hover:border-primary/50 cursor-pointer h-full">
+        <div className="tool-icon w-10 h-10 sm:w-12 sm:h-12 brand-gradient rounded-lg flex items-center justify-center mb-2 sm:mb-4 transition-transform">
+          <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
         </div>
-        <h3 className="font-semibold text-lg mb-1">{name}</h3>
-        <p className="text-sm text-muted-foreground">{description}</p>
+        <h3 className="font-semibold text-sm sm:text-lg mb-0.5 sm:mb-1">{name}</h3>
+        <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2">{description}</p>
       </div>
     </Link>
   );
@@ -193,14 +193,14 @@ export default function Home() {
       </section>
 
       {/* Document Types Grid */}
-      <section id="documents" className="container mx-auto px-4 py-16">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Create Any Document</h2>
-          <p className="text-muted-foreground">
+      <section id="documents" className="container mx-auto px-4 py-8 sm:py-16">
+        <div className="text-center mb-6 sm:mb-12">
+          <h2 className="text-xl sm:text-3xl font-bold mb-2 sm:mb-4">Create Any Document</h2>
+          <p className="text-sm sm:text-base text-muted-foreground">
             Choose your document type and start creating in seconds.
           </p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-6">
           {documentTypes.map((doc) => (
             <DocumentCard key={doc.href} {...doc} />
           ))}
@@ -208,17 +208,17 @@ export default function Home() {
       </section>
 
       {/* Features Grid */}
-      <section className="container mx-auto px-4 py-16 border-t">
-        <div className="text-center mb-12">
-          <Badge className="mb-4 bg-amber-500/10 text-amber-600 border-amber-500/20">
+      <section className="container mx-auto px-4 py-8 sm:py-16 border-t">
+        <div className="text-center mb-6 sm:mb-12">
+          <Badge className="mb-3 sm:mb-4 bg-amber-500/10 text-amber-600 border-amber-500/20">
             Features
           </Badge>
-          <h2 className="text-3xl font-bold mb-4">Everything You Need</h2>
-          <p className="text-muted-foreground">
+          <h2 className="text-xl sm:text-3xl font-bold mb-2 sm:mb-4">Everything You Need</h2>
+          <p className="text-sm sm:text-base text-muted-foreground">
             Professional tools to create documents that get you paid faster.
           </p>
         </div>
-        <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
+        <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
           {features.map((feature) => (
             <FeatureCard key={feature.name} {...feature} />
           ))}
@@ -226,14 +226,14 @@ export default function Home() {
       </section>
 
       {/* How It Works */}
-      <section className="container mx-auto px-4 py-16 border-t">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Create in 3 Simple Steps</h2>
-          <p className="text-muted-foreground">
+      <section className="container mx-auto px-4 py-8 sm:py-16 border-t">
+        <div className="text-center mb-6 sm:mb-12">
+          <h2 className="text-xl sm:text-3xl font-bold mb-2 sm:mb-4">Create in 3 Simple Steps</h2>
+          <p className="text-sm sm:text-base text-muted-foreground">
             No signup required. Start creating immediately.
           </p>
         </div>
-        <div className="max-w-4xl mx-auto grid md:grid-cols-3 gap-8">
+        <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
           {[
             {
               step: "1",

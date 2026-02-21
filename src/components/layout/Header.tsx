@@ -48,9 +48,9 @@ function DocZippIcon({ className = "", id = "doczipp" }: { className?: string; i
     >
       <defs>
         <linearGradient id={`${id}-gradient`} x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#3B82F6" />
-          <stop offset="50%" stopColor="#6366F1" />
-          <stop offset="100%" stopColor="#8B5CF6" />
+          <stop offset="0%" stopColor="#4F46E5" />
+          <stop offset="50%" stopColor="#3B82F6" />
+          <stop offset="100%" stopColor="#0EA5E9" />
         </linearGradient>
       </defs>
       {/* Document shape */}
@@ -92,6 +92,7 @@ function DOCzippLogo({ size = "default" }: { size?: "default" | "large" }) {
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileSection, setMobileSection] = useState<string | null>(null);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -179,49 +180,108 @@ export function Header() {
               </Link>
             </div>
 
+            {/* Mobile CTA */}
+            <Link href="/create" className="md:hidden">
+              <Button size="sm" className="brand-gradient text-white text-xs px-3 py-1 h-7">
+                Try Free
+              </Button>
+            </Link>
+
             {/* Mobile Menu Button */}
             <Button
               variant="ghost"
               size="icon"
-              className="md:hidden"
+              className="md:hidden h-10 w-10"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
-              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </Button>
           </div>
         </div>
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden py-4 border-t">
-            <nav className="flex flex-col gap-2">
-              <div className="px-2 py-1 text-sm font-medium text-muted-foreground">Documents</div>
-              {documentTypes.map((doc) => (
-                <Link
-                  key={doc.href}
-                  href={doc.href}
-                  className="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-muted"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <doc.icon className="h-4 w-4" />
-                  {doc.name}
-                </Link>
-              ))}
-              <DropdownMenuSeparator />
+          <div className="md:hidden py-4 border-t max-h-[80vh] overflow-y-auto">
+            <nav className="flex flex-col gap-1">
+              {/* Documents Section */}
+              <button
+                onClick={() => setMobileSection(mobileSection === 'docs' ? null : 'docs')}
+                className="w-full flex items-center justify-between px-2 py-3 rounded-lg hover:bg-muted"
+              >
+                <div className="flex items-center gap-2">
+                  <FileText className="h-4 w-4 text-primary" />
+                  <span className="font-semibold text-sm">Documents</span>
+                  <span className="text-xs text-muted-foreground">({documentTypes.length})</span>
+                </div>
+                <ChevronDown className={`h-4 w-4 text-muted-foreground transition-transform ${mobileSection === 'docs' ? 'rotate-180' : ''}`} />
+              </button>
+              {mobileSection === 'docs' && (
+                <div className="pl-4 space-y-1 pb-2">
+                  {documentTypes.map((doc) => (
+                    <Link
+                      key={doc.href}
+                      href={doc.href}
+                      className="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-muted"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <doc.icon className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-sm">{doc.name}</span>
+                    </Link>
+                  ))}
+                </div>
+              )}
+
+              {/* Features Section */}
+              <button
+                onClick={() => setMobileSection(mobileSection === 'features' ? null : 'features')}
+                className="w-full flex items-center justify-between px-2 py-3 rounded-lg hover:bg-muted"
+              >
+                <div className="flex items-center gap-2">
+                  <Sparkles className="h-4 w-4 text-purple-500" />
+                  <span className="font-semibold text-sm">Features</span>
+                  <span className="text-xs text-muted-foreground">({features.length})</span>
+                </div>
+                <ChevronDown className={`h-4 w-4 text-muted-foreground transition-transform ${mobileSection === 'features' ? 'rotate-180' : ''}`} />
+              </button>
+              {mobileSection === 'features' && (
+                <div className="pl-4 space-y-1 pb-2">
+                  {features.map((feature) => (
+                    <Link
+                      key={feature.name}
+                      href={feature.href}
+                      className="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-muted"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {feature.ai ? (
+                        <Sparkles className="h-4 w-4 text-purple-500" />
+                      ) : (
+                        <Crown className="h-4 w-4 text-amber-500" />
+                      )}
+                      <span className="text-sm">{feature.name}</span>
+                    </Link>
+                  ))}
+                </div>
+              )}
+
+              <div className="border-t my-3" />
+              
               <Link
                 href="/templates"
-                className="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-muted"
+                className="flex items-center gap-3 px-2 py-3 rounded-lg hover:bg-muted"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Templates
+                <FileCheck className="h-4 w-4 text-primary" />
+                <span className="font-medium text-sm">Templates</span>
               </Link>
               <Link
                 href="/pricing"
-                className="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-muted"
+                className="flex items-center gap-3 px-2 py-3 rounded-lg hover:bg-muted"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Pricing
+                <Crown className="h-4 w-4 text-amber-500" />
+                <span className="font-medium text-sm">Pricing</span>
               </Link>
+              
               <div className="flex gap-2 mt-4 px-2">
                 <Link href="/login" className="flex-1">
                   <Button variant="outline" className="w-full">Log in</Button>

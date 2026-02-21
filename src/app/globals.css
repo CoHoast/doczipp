@@ -5,10 +5,10 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* DOCzipp Brand Gradient Colors - Blue to Indigo to Violet */
-  --gradient-start: 217 91% 60%; /* Blue */
-  --gradient-mid: 239 84% 67%; /* Indigo */
-  --gradient-end: 270 76% 60%; /* Violet */
+  /* DOCzipp Brand Gradient Colors - Indigo to Sky Blue (Professional Documents) */
+  --gradient-start: 239 84% 67%; /* Indigo #4F46E5 */
+  --gradient-mid: 217 91% 60%; /* Blue #3B82F6 */
+  --gradient-end: 199 89% 48%; /* Sky #0EA5E9 */
   
   --radius: 0.75rem;
   --background: 0 0% 100%;
@@ -17,13 +17,13 @@
   --card-foreground: 240 10% 3.9%;
   --popover: 0 0% 100%;
   --popover-foreground: 240 10% 3.9%;
-  --primary: 262 83% 58%;
+  --primary: 239 84% 67%; /* Indigo */
   --primary-foreground: 0 0% 98%;
   --secondary: 240 4.8% 95.9%;
   --secondary-foreground: 240 5.9% 10%;
   --muted: 240 4.8% 95.9%;
   --muted-foreground: 240 3.8% 46.1%;
-  --accent: 330 81% 60%;
+  --accent: 199 89% 48%; /* Sky Blue */
   --accent-foreground: 0 0% 98%;
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 0 0% 98%;
@@ -199,4 +199,13 @@
 
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-muted-foreground/40;
+}
+
+/* Hide scrollbar but allow scrolling */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
