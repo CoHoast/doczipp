@@ -29,6 +29,9 @@ const documentTypes = [
   { name: "Estimate", href: "/create?type=estimate", icon: FileCheck, description: "Rough project pricing" },
   { name: "Receipt", href: "/create?type=receipt", icon: Receipt, description: "Confirm payment received" },
   { name: "Proforma", href: "/create?type=proforma", icon: FileOutput, description: "Request advance payment" },
+  { name: "Purchase Order", href: "/create?type=purchase-order", icon: ClipboardList, description: "Order from suppliers" },
+  { name: "Credit Note", href: "/create?type=credit-note", icon: FileOutput, description: "Issue refunds or credits" },
+  { name: "Timesheet", href: "/create?type=timesheet", icon: FileCheck, description: "Track billable hours" },
 ];
 
 const features = [

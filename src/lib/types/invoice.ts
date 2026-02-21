@@ -1,6 +1,6 @@
 // Core Invoice Types
 
-export type DocumentType = 'invoice' | 'quote' | 'receipt' | 'estimate' | 'proforma';
+export type DocumentType = 'invoice' | 'quote' | 'receipt' | 'estimate' | 'proforma' | 'purchase-order' | 'credit-note' | 'timesheet';
 
 export interface LineItem {
   id: string;

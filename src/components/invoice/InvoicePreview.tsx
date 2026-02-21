@@ -19,7 +19,10 @@ export function InvoicePreview({ invoice, showWatermark = true }: InvoicePreview
   const documentTitle = invoice.type === 'invoice' ? 'INVOICE' :
                         invoice.type === 'quote' ? 'QUOTE' :
                         invoice.type === 'estimate' ? 'ESTIMATE' :
-                        invoice.type === 'receipt' ? 'RECEIPT' : 'PROFORMA INVOICE';
+                        invoice.type === 'receipt' ? 'RECEIPT' :
+                        invoice.type === 'purchase-order' ? 'PURCHASE ORDER' :
+                        invoice.type === 'credit-note' ? 'CREDIT NOTE' :
+                        invoice.type === 'timesheet' ? 'TIMESHEET' : 'PROFORMA INVOICE';
 
   return (
     <div className="relative bg-white p-8 min-h-[600px] text-sm" style={{ fontFamily: font.family }}>

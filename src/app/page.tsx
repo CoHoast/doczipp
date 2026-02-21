@@ -53,6 +53,24 @@ const documentTypes = [
     href: "/create?type=proforma",
     icon: FileOutput,
   },
+  {
+    name: "Purchase Order",
+    description: "Order goods from suppliers",
+    href: "/create?type=purchase-order",
+    icon: ClipboardList,
+  },
+  {
+    name: "Credit Note",
+    description: "Issue refunds or credits",
+    href: "/create?type=credit-note",
+    icon: FileOutput,
+  },
+  {
+    name: "Timesheet",
+    description: "Track billable hours",
+    href: "/create?type=timesheet",
+    icon: Clock,
+  },
 ];
 
 const features = [
@@ -90,7 +108,7 @@ const features = [
 ];
 
 const stats = [
-  { value: "5", label: "Document Types" },
+  { value: "8", label: "Document Types" },
   { value: "5", label: "Pro Templates" },
   { value: "<60s", label: "Creation Time" },
   { value: "∞", label: "Customizations" },
@@ -200,7 +218,7 @@ export default function Home() {
             Choose your document type and start creating in seconds.
           </p>
         </div>
-        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
           {documentTypes.map((doc) => (
             <DocumentCard key={doc.href} {...doc} />
           ))}
