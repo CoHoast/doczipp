@@ -9,10 +9,17 @@ export function generateId(): string {
 
 export function generateInvoiceNumber(type: DocumentType, sequence: number = 1): string {
   const year = new Date().getFullYear();
-  const prefix = type === 'invoice' ? 'INV' : 
-                 type === 'quote' ? 'QUO' :
-                 type === 'estimate' ? 'EST' :
-                 type === 'receipt' ? 'REC' : 'PRO';
+  const prefixes: Record<DocumentType, string> = {
+    'invoice': 'INV',
+    'quote': 'QUO',
+    'estimate': 'EST',
+    'receipt': 'REC',
+    'proforma': 'PRO',
+    'purchase-order': 'PO',
+    'credit-note': 'CN',
+    'timesheet': 'TS',
+  };
+  const prefix = prefixes[type] || 'DOC';
   return `${prefix}-${year}-${sequence.toString().padStart(3, '0')}`;
 }
 
