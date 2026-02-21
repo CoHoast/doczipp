@@ -13,8 +13,7 @@ import {
 } from "next/font/google";
 import { ToastProvider } from "@/components/ui/toast";
 import { SessionProvider } from "@/components/providers/SessionProvider";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
+import { LayoutWrapper } from "@/components/layout/LayoutWrapper";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -55,11 +54,9 @@ export default function RootLayout({
       <body className={`${inter.variable} ${roboto.variable} ${lato.variable} ${poppins.variable} ${openSans.variable} ${montserrat.variable} ${playfair.variable} ${merriweather.variable} ${sourceSans.variable} ${raleway.variable} font-sans antialiased min-h-screen flex flex-col`}>
         <SessionProvider>
           <ToastProvider>
-            <Header />
-            <main className="flex-1">
+            <LayoutWrapper>
               {children}
-            </main>
-            <Footer />
+            </LayoutWrapper>
           </ToastProvider>
         </SessionProvider>
       </body>
