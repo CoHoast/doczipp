@@ -27,31 +27,37 @@ import {
 } from '@/lib/utils/invoice';
 import { InvoicePreview } from './InvoicePreview';
 
+const VALID_TYPES: DocumentType[] = ['invoice', 'quote', 'estimate', 'receipt', 'proforma', 'purchase-order', 'credit-note', 'timesheet'];
+
 export function InvoiceBuilder() {
   const searchParams = useSearchParams();
   const typeParam = searchParams.get('type') as DocumentType | null;
   
-  const [invoice, setInvoice] = useState<Partial<Invoice>>(() => {
-    const validTypes: DocumentType[] = ['invoice', 'quote', 'estimate', 'receipt', 'proforma', 'purchase-order', 'credit-note', 'timesheet'];
-    const initialType = typeParam && validTypes.includes(typeParam) ? typeParam : 'invoice';
-    return createEmptyInvoice(initialType);
-  });
+  const [invoice, setInvoice] = useState<Partial<Invoice>>(() => createEmptyInvoice('invoice'));
   const [activeTab, setActiveTab] = useState('details');
+  const [initialized, setInitialized] = useState(false);
   
-  // Update invoice type when URL param changes
+  // Set document type from URL param on mount
   useEffect(() => {
-    const validTypes: DocumentType[] = ['invoice', 'quote', 'estimate', 'receipt', 'proforma', 'purchase-order', 'credit-note', 'timesheet'];
-    if (typeParam && validTypes.includes(typeParam) && typeParam !== invoice.type) {
+    if (!initialized) {
+      const docType = typeParam && VALID_TYPES.includes(typeParam) ? typeParam : 'invoice';
+      setInvoice(createEmptyInvoice(docType));
+      setInitialized(true);
+    }
+  }, [typeParam, initialized]);
+  
+  // Update invoice type when URL param changes (after initialization)
+  useEffect(() => {
+    if (initialized && typeParam && VALID_TYPES.includes(typeParam) && typeParam !== invoice.type) {
       setInvoice(prev => ({
-        ...prev,
         ...createEmptyInvoice(typeParam),
-        // Keep existing data
+        // Keep existing data user has entered
         from: prev.from,
         to: prev.to,
         lineItems: prev.lineItems,
       }));
     }
-  }, [typeParam, invoice.type]);
+  }, [typeParam, initialized, invoice.type]);
 
   const updateInvoice = useCallback((updates: Partial<Invoice>) => {
     setInvoice(prev => {
